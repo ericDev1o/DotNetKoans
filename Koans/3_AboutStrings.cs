@@ -65,7 +65,7 @@ broken line";
 
 		// Make sure to use a literal string.
 		// Escaped characters in verbatim strings are covered later.
-		string literalString = @"I\nam a\nbroken line";
+		string literalString = "I\nam a\nbroken line";
 		Assert.Equal(literalString.Length, verbatimString.Length);
 
 		// For verbatim strings, the newline character used will depend on
@@ -184,21 +184,21 @@ broken line";
 	{
 		//You can modify the value inserted into the result
 		string str = string.Format("{0,3:}", "x");
-		Assert.Equal("   x", str);
+		Assert.Equal("  x", str);
 	}
 
 	[Step(16)]
 	public void StringsCanBePaddedToTheRight()
 	{
 		string str = string.Format("{0,-3:}", "x");
-		Assert.Equal("x   ", str);
+		Assert.Equal("x  ", str);
 	}
 
 	[Step(17)]
 	public void SeparatorsCanBeAdded()
 	{
 		string str = string.Format("{0:n}", 123456);
-		Assert.Equal("1234.56", str);
+		Assert.Equal("123 456,000", str);
 	}
 
 	[Step(18)]
