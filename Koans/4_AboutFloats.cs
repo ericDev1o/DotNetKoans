@@ -1,6 +1,7 @@
 using System.Globalization;
 using Xunit;
 using DotNetKoans.Engine;
+using System;
 
 namespace DotNetKoans.Koans;
 
@@ -96,9 +97,10 @@ public class AboutFloats : Koan
 	[Step(8)]
 	public void FloatingPointMathIsWeird()
 	{
-		var f = 0.3f + 0.6f;
-
-		Assert.True(f == 0.9f);
+		var f = 0.3f + 1.6f;
+		CultureInfo culture = new CultureInfo("fr-FR");
+		string str = string.Format(culture, "{0:.#}", f);
+		Assert.Equal("1,9", str);
 
 		// Math with floating point numbers doesn't always behave how humans expect.
 		// This is because floating point numbers are stored in binary,
