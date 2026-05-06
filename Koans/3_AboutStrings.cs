@@ -14,6 +14,8 @@ public class AboutStrings : Koan
 	// to concatenation and newlines, and is one of the biggest
 	// causes of memory leaks in .NET applications
 
+	CultureInfo culture = new CultureInfo("fr-FR");
+
 	[Step(1)]
 	public void DoubleQuotedStringsAreStrings()
 	{
@@ -198,45 +200,50 @@ broken line";
 	[Step(17)]
 	public void SeparatorsCanBeAdded()
 	{
-		string str = string.Format("{0:n}", 123456);
-		Assert.Equal("123 456,000", str);
+		string str = string.Format(culture, "{0:n}", 123456);
+		Console.WriteLine("str: " + str);
+		Assert.Equal("123\u202F456,000", str);
 	}
 
 	[Step(18)]
 	public void CurrencyDesignatorsCanBeAdded()
 	{
-		string str = string.Format("{0:c}", 123456);
-		Assert.Equal(FILL_ME_IN, str);
+		string str = string.Format(culture, "{0:c}", 123456);
+		Assert.Equal("123\u202F456,00 €", str);
 	}
 
 	[Step(19)]
 	public void NumberOfDisplayedDecimalsCanBeControlled()
 	{
-		string str = string.Format("{0:.##}", 12.3456);
-		Assert.Equal("12.34", str);
+		string str = string.Format(culture, "{0:.##}", 12.3456);
+		Assert.Equal("12,35", str);
 	}
 
 	[Step(20)]
 	public void MinimumNumberOfDisplayedDecimalsCanBeControlled()
 	{
-		string str = string.Format("{0:.00}", 12.3);
-		Assert.Equal("12.30", str);
+		string str = string.Format(culture, "{0:.00}", 12.3);
+		Assert.Equal("12,30", str);
 	}
 
 	[Step(21)]
 	public void BuiltInDateFormatters()
 	{
-		string str = string.Format("{0:t}", DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture));
-		Assert.Equal(FILL_ME_IN, str);
+		string str = string.Format(
+			culture, 
+			"{0:t}", 
+			DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture)
+		);
+		Assert.Equal("14:35", str);
 	}
 
 	[Step(22)]
 	public void CustomDateFormatters()
 	{
 		var str = string.Format("{0:t m}", DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture));
-		Assert.Equal(FILL_ME_IN, str);
+		Assert.Equal("P 35", str);
 	}
-	//These are just a few of the formatters available. Dig some and you may find what you need.
+	// These are just a few of the formatters available. Dig some and you may find what you need.
 
 
 	[Step(23)]
@@ -247,43 +254,43 @@ broken line";
 		strBuilder.AppendFormat("{0} {1} {2}", "jumped", "over", "the");
 		strBuilder.AppendFormat("{0} {1}.", "lazy", "dog");
 		var str = strBuilder.ToString();
-		Assert.Equal(FILL_ME_IN, str);
+		Assert.Equal("The quick brownjumped over thelazy dog.", str);
 	}
 
 	[Step(24)]
 	public void LiteralStringsInterpretsEscapeCharacters()
 	{
 		var str = "\n";
-		Assert.Equal(FILL_ME_IN, str.Length);
+		Assert.Equal(1, str.Length);
 	}
 
 	[Step(25)]
 	public void VerbatimStringsDoNotInterpretEscapeCharacters()
 	{
 		var str = @"\n";
-		Assert.Equal(FILL_ME_IN, str.Length);
+		Assert.Equal(2, str.Length);
 	}
 
 	[Step(26)]
 	public void VerbatimStringsStillDoNotInterpretEscapeCharacters()
 	{
 		var str = @"\\\";
-		Assert.Equal(FILL_ME_IN, str.Length);
+		Assert.Equal(3, str.Length);
 	}
 
 	[Step(27)]
 	public void YouCanGetASubstringFromAString()
 	{
 		var str = "Bacon, lettuce and tomato";
-		Assert.Equal(FILL_ME_IN, str.Substring(19));
-		Assert.Equal(FILL_ME_IN, str.Substring(7, 3));
+		Assert.Equal("tomato", str.Substring(19));
+		Assert.Equal("let", str.Substring(7, 3));
 	}
 
 	[Step(28)]
 	public void YouCanGetASingleCharacterFromAString()
 	{
 		var str = "Bacon, lettuce and tomato";
-		Assert.Equal(FILL_ME_IN, str[0]);
+		Assert.Equal('B', str[0]);
 	}
 
 	[Step(29)]
@@ -291,7 +298,7 @@ broken line";
 	{
 		Assert.Equal(97, 'a');
 		Assert.Equal(98, 'b');
-		Assert.Equal(FILL_ME_IN, 'b' == ('a' + 1));
+		Assert.True('b' == ('a' + 1));
 	}
 
 	[Step(30)]
@@ -299,7 +306,7 @@ broken line";
 	{
 		var str = "Sausage Egg Cheese";
 		string[] words = str.Split();
-		Assert.Equal(new[] { FILL_ME_IN }, words);
+		Assert.Equal(new[] { "Sausage", "Egg", "Cheese" }, words);
 	}
 
 	[Step(31)]
@@ -307,7 +314,7 @@ broken line";
 	{
 		var str = "the:rain:in:spain";
 		string[] words = str.Split(':');
-		Assert.Equal(new[] { FILL_ME_IN }, words);
+		Assert.Equal(new[] { "the", "rain", "in", "spain" }, words);
 	}
 
 	[Step(32)]
@@ -316,26 +323,26 @@ broken line";
 		var str = "the:rain:in:spain";
 		var regex = new System.Text.RegularExpressions.Regex(":");
 		string[] words = regex.Split(str);
-		Assert.Equal(new[] { FILL_ME_IN }, words);
+		Assert.Equal(new[] { "the", "rain", "in", "spain" }, words);
 
-		//A full treatment of regular expressions is beyond the scope
-		//of this tutorial. The book "Mastering Regular Expressions"
-		//is highly recommended to be on your bookshelf
+		// A full treatment of regular expressions is beyond the scope
+		// of this tutorial. The book "Mastering Regular Expressions"
+		// is highly recommended to be on your bookshelf
 	}
 
 	[Step(33)]
 	public void YouCanInterpolateVariablesIntoAString()
 	{
-		var name = "John Doe";
-		var age = 33;
-		var str = $"Mr. {name} is {age} years old";
-		Assert.Equal(FILL_ME_IN, str);
+		string name = "John Doe";
+		short age = 33;
+		string str = $"Mr. {name} is {age} years old";
+		Assert.Equal("Mr. John Doe is 33 years old", str);
 	}
 	
 	[Step(34)]
 	public void InterpolationSupportsFormatAsWell()
 	{
 		var str = $"{DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture):t m}";
-		Assert.Equal(FILL_ME_IN, str);
+		Assert.Equal("P 35", str);
 	}
 }
