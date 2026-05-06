@@ -49,7 +49,7 @@ public class AboutStrings : Koan
 	{
 		string strA = @"Verbatim Strings can handle both ' and "" characters (when escaped)";
 		string strB = "Verbatim Strings can handle both ' and \" characters (when escaped)";
-		Assert.True(strA.Equals(strB));
+		Assert.Equal(strA,strB);
 	}
 
 	[Step(6)]
