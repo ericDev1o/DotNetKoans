@@ -8,11 +8,11 @@ namespace DotNetKoans.Koans;
 
 public class AboutStrings : Koan
 {
-	//Note: This is one of the longest katas and, perhaps, one
-	//of the most important. String behavior in .NET is not
-	//always what you expect it to be, especially when it comes
-	//to concatenation and newlines, and is one of the biggest
-	//causes of memory leaks in .NET applications
+	// Note: This is one of the longest katas and, perhaps, one
+	// of the most important. String behavior in .NET is not
+	// always what you expect it to be, especially when it comes
+	// to concatenation and newlines, and is one of the biggest
+	// causes of memory leaks in .NET applications
 
 	[Step(1)]
 	public void DoubleQuotedStringsAreStrings()
@@ -38,8 +38,8 @@ public class AboutStrings : Koan
 	[Step(4)]
 	public void AnotherWayToCreateAStringWhichContainsDoubleQuotes()
 	{
-		//The @ symbol creates a 'verbatim string literal'. 
-		//Here's one thing you can do with it:
+		// The @ symbol creates a 'verbatim string literal'. 
+		// Here's one thing you can do with it:
 		string str = @"Hello, ""World""";
 		Assert.Equal(14, str.Length);
 	}
@@ -55,10 +55,10 @@ public class AboutStrings : Koan
 	[Step(6)]
 	public void VerbatimStringsCanHandleMultipleLinesToo()
 	{
-		//Tip: What you create for the literal string will have to 
-		//escape the newline characters. For Windows, that would be
+		// Tip: What you create for the literal string will have to 
+		// escape the newline characters. For Windows, that would be
 		// \r\n. If you are on non-Windows, that would just be \n.
-		//We'll show a different way next.
+		// We'll show a different way next.
 		string verbatimString = @"I
 am a
 broken line";
@@ -80,10 +80,10 @@ broken line";
 	[Step(7)]
 	public void ACrossPlatformWayToHandleLineEndings()
 	{
-		//Since line endings are different on different platforms
-		//(\r\n for Windows, \n for Linux) you shouldn't just type in
-		//the hardcoded escape sequence. A much better way
-		//(We'll handle concatenation and better ways of that in a bit)
+		// Since line endings are different on different platforms
+		// (\r\n for Windows, \n for Linux) you shouldn't just type in
+		// the hardcoded escape sequence. A much better way
+		// (We'll handle concatenation and better ways of that in a bit)
 		var literalString = "I" + System.Environment.NewLine + "am a" + System.Environment.NewLine + "broken line";
 		var verbatimString =  @"I
 am a
@@ -121,9 +121,9 @@ broken line";
 	[Step(11)]
 	public void StringsAreReallyImmutable()
 	{
-		//So here's the thing. Concatenating strings is cool
-		//and all. But if you think you are modifying the original
-		//string, you'd be wrong. 
+		// So here's the thing. Concatenating strings is cool
+		// and all. But if you think you are modifying the original
+		// string, you'd be wrong. 
 
 		string strA = "Hello, ";
 		string originalString = strA;
@@ -132,20 +132,20 @@ broken line";
 		
 		Assert.Equal("Hello, ", originalString);
 		Assert.False(Object.ReferenceEquals(strA, originalString));
-		//What just happened? Well, the string concatenation actually
-		//takes strA and strB and creates a *new* string in memory
-		//that has the new value. It does *not* modify the original
-		//string. This is a very important point - if you do this kind
-		//of string concatenation in a tight loop, you'll use a lot of memory
-		//because the original string will hang around in memory until the
-		//garbage collector picks it up. Let's look at a better way
-		//when dealing with lots of concatenation
+		// What just happened? Well, the string concatenation actually
+		// takes strA and strB and creates a *new* string in memory
+		// that has the new value. It does *not* modify the original
+		// string. This is a very important point - if you do this kind
+		// of string concatenation in a tight loop, you'll use a lot of memory
+		// because the original string will hang around in memory until the
+		// garbage collector picks it up. Let's look at a better way
+		// when dealing with lots of concatenation
 	}
 
 	[Step(12)]
 	public void ABetterWayToConcatenateLotsOfStrings()
 	{
-		//Concatenating lots of strings is a Bad Idea(tm). If you need to do that, then consider StringBuilder.
+		// Concatenating lots of strings is a Bad Idea(tm). If you need to do that, then consider StringBuilder.
 		StringBuilder strBuilder = new System.Text.StringBuilder();
 		strBuilder.Append("The ");
 		strBuilder.Append("quick ");
@@ -159,8 +159,9 @@ broken line";
 		string str = strBuilder.ToString();
 		Assert.Equal("The quick brown fox jumped over the lazy dog.", str);
 
-		//When doing lots and lots of concatenation in a loop, StringBuilder will be more efficient than concatenation using the +-operator.
-		//However, even in the above example simple concatenation would actually be more efficient.
+		// When doing lots and lots of concatenation in a loop, 
+		// StringBuilder will be more efficient than concatenation using the +-operator.
+		// However, even in the above example simple concatenation would actually be more efficient.
 	}
 	
 	[Step(13)]
@@ -182,7 +183,7 @@ broken line";
 	[Step(15)]
 	public void StringsCanBePaddedToTheLeft()
 	{
-		//You can modify the value inserted into the result
+		// You can modify the value inserted into the result
 		string str = string.Format("{0,3:}", "x");
 		Assert.Equal("  x", str);
 	}
