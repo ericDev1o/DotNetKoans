@@ -201,7 +201,7 @@ broken line";
 	public void SeparatorsCanBeAdded()
 	{
 		string str = string.Format(culture, "{0:n}", 123456);
-		Console.WriteLine("str: " + str);
+		
 		Assert.Equal("123\u202F456,000", str);
 	}
 
