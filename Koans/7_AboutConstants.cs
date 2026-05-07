@@ -8,112 +8,138 @@ public class AboutConstants : Koan
 	[Step(1)]
 	public void ConstantsMustBeInitalizedAsDeclared()
 	{
-		const int months = 12;
-		Assert.Equal(FILL_ME_IN, 12);
+		const short Months = 12;
+
+		Assert.Equal(12, Months);
 	}
 
 	[Step(2)]
 	public void ConstantsCannotBeChanged()
 	{
-		//Since C# inserts literal values into compiled
-		//code, you will not achieve zen when attempting
-		//to change them after definition.
-		const int days = 365;
-		//days = days + 1; //
-		Assert.Equal(FILL_ME_IN, 365);
+		// Since C# inserts literal values into compiled
+		// code, you will not achieve zen when attempting
+		// to change them after definition.
+		const short Days = 365;
+		// Days = Days + 1; // Compilation error
+
+		Assert.Equal(365, Days);
 	}
 
+	private readonly short Days;
+
+	public AboutConstants() { Days = 365; }
+
 	[Step(3)]
-	public void ConstantsOfTheSameTypeCanBeDeclaredAtTheSameTime()
+	public void ReadonlyValuesCanBeAssignedOnlyOnce()
 	{
-		//You can achieve zen (and save keystrokes) by defining
-		//constants of the same type as one.
-		const int months = 12, weeks = 52, days = 365;
-		Assert.Equal(typeof(FillMeIn), months.GetType());
-		Assert.Equal(typeof(FillMeIn), weeks.GetType());
-		Assert.Equal(typeof(FillMeIn), days.GetType());
+		// Days += 1; // Compilation error
+
+		Assert.Equal(365, Days);
 	}
 
 	[Step(4)]
+	public void ConstantsOfTheSameTypeCanBeDeclaredAtTheSameTime()
+	{
+		// You can achieve zen (and save keystrokes) by defining
+		// constants of the same type as one.
+		const short Months = 12, Weeks = 52, Days = 365;
+
+		Assert.Equal(typeof(short), Months.GetType());
+		Assert.Equal(typeof(short), Weeks.GetType());
+		Assert.Equal(typeof(short), Days.GetType());
+
+		Assert.Equal(12, Months);
+		Assert.Equal(52, Weeks);
+		Assert.Equal(365, Days);
+	}
+
+	[Step(5)]
 	public void ConstantsCanBeUsedInExpressionsToInitializeOtherConstants()
 	{
-		const int months = 12;
-		const int weeks = 52;
-		const int days = 365;
+		const short Months = 12;
+		const short Weeks = 52;
+		const short Days = 365;
 
-		const double daysPerWeek = (double)days / (double)weeks;
-		const double daysPerMonth = (double)days / (double)months;
-		Assert.Equal(FILL_ME_IN, daysPerWeek);
-		Assert.Equal(FILL_ME_IN, daysPerMonth);
+		const double DaysPerWeek = Days / Weeks;
+		const double DaysPerMonth = Days / Months;
 
-		//Constants can be used in arithmetic to set other constant values.
-		//They can also initialize each other.
+		Assert.Equal(7d, DaysPerWeek);
+		Assert.Equal(30,5d, DaysPerMonth);
+
+		// Constants can be used in arithmetic to set other constant values.
+		// They can also initialize each other.
 	}
 
 	class Animal
 	{
-		public const int Legs = 4;
+		public const short Legs = 4;
 
-		public int LegsInAnimal()
+		public short LegsInAnimal()
 		{
 			return Legs;
 		}
 
 		public class NestedAnimal
 		{
-			public int LegsInNestedAnimal()
+			public short LegsInNestedAnimal()
 			{
 				return Legs;
 			}
 		}
 	}
 
-	[Step(5)]
+	[Step(6)]
 	public void NestedClassesInheritConstantsFromEnclosingClasses()
 	{
-		var nestedAnimal = new Animal.NestedAnimal();
-		Assert.Equal(FILL_ME_IN, nestedAnimal.LegsInNestedAnimal());
+		Animal.NestedAnimal nestedAnimal = new Animal.NestedAnimal();
 
-		//QUESTION: Do nested classes inherit their parent's scope?
+		Assert.Equal(4, nestedAnimal.LegsInNestedAnimal());
+
+		// Nested classes have access to their parent's scope.
+		// This includes private or static or constant members.
+		// But nested classes don't inherit their parent type.
 	}
 
 	class Reptile : Animal
 	{
-		public int LegsInReptile()
+		public short LegsInReptile()
 		{
 			return Legs;
 		}
 	}
 
-	[Step(6)]
+	[Step(7)]
 	public void SubclassesInheritConstantsFromParentClasses()
 	{
-		//If a Reptile is an Animal, zen is achieved
-		//when you realize they too will have legs.
-		var reptile = new Reptile();
-		Assert.Equal(FILL_ME_IN, reptile.LegsInReptile());
+		// If a Reptile is an Animal, zen is achieved
+		// when you realize they too will have legs.
+		Reptile reptile = new Reptile();
+
+		Assert.Equal(4, reptile.LegsInReptile());
 	}
 
 	class MyAnimals
 	{
-		public const int Legs = 2;
+		public const short Legs = 2;
 
 		public class Bird : Animal
 		{
-			public int LegsInBird()
+			public short LegsInBird()
 			{
 				return Legs;
 			}
 		}
 	}
 
-	[Step(7)]
+	[Step(8)]
 	public void WhoWinsWithBothNestedAndInheritedConstants()
 	{
-		var bird = new MyAnimals.Bird();
-		Assert.Equal(FILL_ME_IN, bird.LegsInBird());
+		MyAnimals.Bird bird = new MyAnimals.Bird();
 
-		/* QUESTION: Which has precedence: The constant in the lexical scope,
-		   or the constant from the inheritance hierarchy? */
+		Assert.Equal(4, bird.LegsInBird());
+
+		// The constant from the inheritance hierarchy
+		// has precedence over 
+		// the constant in the lexical scope.
 	}
 }
