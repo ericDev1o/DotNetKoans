@@ -64,7 +64,7 @@ public class AboutInheritance : Koan
 	[Step(3)]
 	public static void SubclassesInheritBehaviorFromParentClass()
 	{
-		Chihuahua chico = new Chihuahua("Chico");
+		Chihuahua chico = new("Chico");
 
 		Assert.Equal("Chico", chico.Name);
 	}
@@ -72,7 +72,7 @@ public class AboutInheritance : Koan
 	[Step(4)]
 	public static void SubclassesAddNewBehavior()
 	{
-		Chihuahua chico = new Chihuahua("Chico");
+		Chihuahua chico = new("Chico");
 
 		Assert.Equal("Happy", chico.Wag());
 
@@ -82,14 +82,14 @@ public class AboutInheritance : Koan
 
 		// So we can show that the Wag method isn't on Dog. 
 		// Proving you can't wag the dog. 
-		Dog dog = new Dog("Fluffy");
+		Dog dog = new("Fluffy");
 		Assert.Null(dog.GetType().GetMethod("Wag"));
 	}
 
 	[Step(5)]
 	public static void SubclassesCanModifyExistingBehavior()
 	{
-		Chihuahua chico = new Chihuahua("Chico");
+		Chihuahua chico = new("Chico");
 
 		Assert.Equal("yip", chico.Bark());
 
@@ -100,7 +100,7 @@ public class AboutInheritance : Koan
 
 		Assert.Equal("yip", dog.Bark());
 
-		Dog fido = new Dog("Fido");
+		Dog fido = new("Fido");
 
 		Assert.Equal("WOOF", fido.Bark());
 	}
@@ -153,7 +153,7 @@ public class AboutInheritance : Koan
 	[Step(8)]
 	public static void SubclassesCanInvokeParentBehaviorUsingBase()
 	{
-		BullDog ralph = new BullDog("Ralph");
+		BullDog ralph = new("Ralph");
 		
 		Assert.Equal("WOOF, GROWL", ralph.Bark());
 	}
