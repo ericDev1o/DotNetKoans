@@ -12,7 +12,7 @@ public class AboutExceptions : Koan
 	// Exceptions are types which inherit from the base 'System.Exception' class
 
 	[Step(1)]
-	public void CatchingAnError()
+	public static void CatchingAnError()
 	{
 		// We can use a try catch block to 'catch' any errors that occur in the 'try' section
 		// Errors that are not 'caught' or 'handled' will usually trigger an 'Unhandled Exception', 
@@ -20,7 +20,7 @@ public class AboutExceptions : Koan
 		// Catching and handling errors gracefully allows more control over your program and provides 
 		// much nicer information to fellow developers (Who will be super grateful!)
 
-		var awareness = 0;
+		short awareness = 0;
 
 		try
 		{
@@ -32,11 +32,11 @@ public class AboutExceptions : Koan
 			awareness += 1;
 		}
 
-		Assert.Equal(FILL_ME_IN, awareness);
+		Assert.Equal(1, awareness);
 	}
 
-	[Step(3)]
-	public void ExceptionMessages()
+	[Step(2)]
+	public static void ExceptionMessages()
 	{
 		// An exception usually contains a message which contains more information about what happened.
 		// We can access the exception object by defining it in the catch block
@@ -53,17 +53,17 @@ public class AboutExceptions : Koan
 			status = exceptionObject.Message;
 		}
 
-		Assert.Equal(FILL_ME_IN, status);
+		Assert.Equal("Ohm", status);
 
 	}
 
-	[Step(4)]
-	public void SystemException()
+	[Step(3)]
+	public static void SystemException()
 	{
 		// A system exception is thrown when the system ends up in a bad place.
 		// For example if you try to save something but the system cannot do it.
 
-		var KarmaIsSaved = false;
+		bool KarmaIsSaved = false;
 
 		try
 		{
@@ -77,15 +77,15 @@ public class AboutExceptions : Koan
 			Console.WriteLine("Our program had an error, your karma was not saved. Sorry man");
 		}
 
-		Assert.Equal(FILL_ME_IN, KarmaIsSaved);
+		Assert.False(KarmaIsSaved);
 	}
 
-	[Step(5)]
-	public void IndexOutOfBoundsException()
+	[Step(4)]
+	public static void IndexOutOfBoundsException()
 	{
 		// An Index out of bounds exception will be thrown if the application tries to access an index that is simply not there
 
-		string[] states = { "Enlightened", "Distracted", "Gaining Awareness" };
+		string[] states = ["Enlightened", "Distracted", "Gaining Awareness"];
 
 		string myCurrentState;
 
@@ -98,15 +98,15 @@ public class AboutExceptions : Koan
 			myCurrentState = states[2];
 		}
 
-		Assert.Equal(FILL_ME_IN, myCurrentState);
+		Assert.Equal("Gaining Awareness", myCurrentState);
 	}
 
-	[Step(6)]
-	public void OurVeryOwnException()
+	[Step(5)]
+	public static void OurVeryOwnException()
 	{
 		// We can create our own exceptions that will help other developers or users
 
-		var IKnowNothingAboutExceptions = true;
+		bool IKnowNothingAboutExceptions = true;
 
 		try
 		{
@@ -122,7 +122,7 @@ public class AboutExceptions : Koan
 			IKnowNothingAboutExceptions = false;
 		}
 
-		Assert.Equal(FILL_ME_IN, IKnowNothingAboutExceptions);
+		Assert.False(IKnowNothingAboutExceptions);
 	}
 
 	// This is how we defined our own custom exception. 
@@ -136,6 +136,6 @@ public class AboutExceptions : Koan
 	}
 
 	// This is just a helper function, don't worry about it
-	public void SaveKarmaToDisk() =>
+	public static void SaveKarmaToDisk() =>
 		throw new System.IO.IOException();
 }
