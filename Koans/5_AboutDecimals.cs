@@ -54,12 +54,12 @@ public class AboutDecimals : Koan
 	public static void DecimalsHaveMaximumAndMinimumValues()
 	{
 		// Even the zen of the decimal has its limits...
-		Assert.Throws(typeof(System.OverflowException), () =>
+		Assert.Throws<System.OverflowException>(() =>
 		{
 			decimal d = decimal.Parse("79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
 		});
 
-		Assert.Throws(typeof(System.OverflowException), () =>
+		Assert.Throws<System.OverflowException>(() =>
 		{
 			decimal d = decimal.Parse("-79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
 		});
@@ -84,7 +84,7 @@ public class AboutDecimals : Koan
 		decimal d = 0.1m;
 		decimal result = d + d + d + d + d + d + d;
 
-		Assert.True(result == 0.7m);
+		Assert.Equal(0.7m, result);
 
 		// The zen of the decimal is quite exceptional indeed. Unlike
 		// floats, they are able to handle math the way humans expect. 

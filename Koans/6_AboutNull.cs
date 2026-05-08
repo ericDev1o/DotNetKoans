@@ -40,13 +40,15 @@ public class AboutNull : Koan
 	public static void CheckingThatAnObjectIsNull()
 	{
 		object obj = null;
-		Assert.True(obj == null);
+
+		Assert.Null(obj);
 	}
 
 	[Step(4)]
 	public static void ABetterWayToCheckThatAnObjectIsNull()
 	{
 		object obj = null;
+
 		Assert.Null(obj);
 	}
 
@@ -54,6 +56,7 @@ public class AboutNull : Koan
 	public static void AWayNotToCheckThatAnObjectIsNull()
 	{
 		object obj = null;
+		
 		Assert.Throws<NullReferenceException>(() => obj.Equals(null));
 	}
 }

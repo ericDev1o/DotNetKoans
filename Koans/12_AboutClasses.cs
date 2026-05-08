@@ -110,10 +110,12 @@ public class AboutClasses : Koan
 	{
 		Foo4 foo4_1 = new();
 		Foo4 foo4_2 = new();
+
 		Assert.Equal(foo4_1.Bar, foo4_2.Bar);
 
 		foo4_1 = new("1");
 		foo4_2 = new("2");
+		
 		Assert.NotEqual(foo4_1.Bar, foo4_2.Bar);
 	}
 
