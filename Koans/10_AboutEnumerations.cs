@@ -43,7 +43,7 @@ public class AboutEnumerations : Koan
 	}
 
 	[Step(1)]
-	public void CreatingAnInstance()
+	public static void CreatingAnInstance()
 	{
 		/*
 		Creating an instance of an enum is as easy as assigning a member
@@ -66,7 +66,7 @@ public class AboutEnumerations : Koan
 	}
 
 	[Step(2)]
-	public void CastingToAnEnum()
+	public static void CastingToAnEnum()
 	{
 		/*
 		Because the underlying type of enum members are actually integers,
@@ -93,7 +93,7 @@ public class AboutEnumerations : Koan
 	}
 
 	[Step(3)]
-	public void MemberValuesCanBeExplicit()
+	public static void MemberValuesCanBeExplicit()
 	{
 		/*
 		There may be cases where you don't want enum members to start at zero
@@ -105,7 +105,7 @@ public class AboutEnumerations : Koan
 	}
 
 	[Step(4)]
-	public void EnumsCanBeFlags()
+	public static void EnumsCanBeFlags()
 	{
 		/*
 		Enums can represent a combination of choices. When an enum is

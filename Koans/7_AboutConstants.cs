@@ -6,7 +6,7 @@ namespace DotNetKoans.Koans;
 public class AboutConstants : Koan
 {
 	[Step(1)]
-	public void ConstantsMustBeInitalizedAsDeclared()
+	public static void ConstantsMustBeInitalizedAsDeclared()
 	{
 		const short Months = 12;
 
@@ -14,7 +14,7 @@ public class AboutConstants : Koan
 	}
 
 	[Step(2)]
-	public void ConstantsCannotBeChanged()
+	public static void ConstantsCannotBeChanged()
 	{
 		// Since C# inserts literal values into compiled
 		// code, you will not achieve zen when attempting
@@ -25,12 +25,12 @@ public class AboutConstants : Koan
 		Assert.Equal(365, Days);
 	}
 
-	private readonly short Days;
+	private static short Days;
 
 	public AboutConstants() { Days = 365; }
 
 	[Step(3)]
-	public void ReadonlyValuesCanBeAssignedOnlyOnce()
+	public static void ReadonlyValuesCanBeAssignedOnlyOnce()
 	{
 		// Days += 1; // Compilation error
 
@@ -38,7 +38,7 @@ public class AboutConstants : Koan
 	}
 
 	[Step(4)]
-	public void ConstantsOfTheSameTypeCanBeDeclaredAtTheSameTime()
+	public static void ConstantsOfTheSameTypeCanBeDeclaredAtTheSameTime()
 	{
 		// You can achieve zen (and save keystrokes) by defining
 		// constants of the same type as one.
@@ -54,7 +54,7 @@ public class AboutConstants : Koan
 	}
 
 	[Step(5)]
-	public void ConstantsCanBeUsedInExpressionsToInitializeOtherConstants()
+	public static void ConstantsCanBeUsedInExpressionsToInitializeOtherConstants()
 	{
 		const short Months = 12;
 		const short Weeks = 52;
@@ -74,14 +74,14 @@ public class AboutConstants : Koan
 	{
 		public const short Legs = 4;
 
-		public short LegsInAnimal()
+		public static short LegsInAnimal()
 		{
 			return Legs;
 		}
 
 		public class NestedAnimal
 		{
-			public short LegsInNestedAnimal()
+			public static short LegsInNestedAnimal()
 			{
 				return Legs;
 			}
@@ -89,11 +89,9 @@ public class AboutConstants : Koan
 	}
 
 	[Step(6)]
-	public void NestedClassesInheritConstantsFromEnclosingClasses()
+	public static void NestedClassesInheritConstantsFromEnclosingClasses()
 	{
-		Animal.NestedAnimal nestedAnimal = new Animal.NestedAnimal();
-
-		Assert.Equal(4, nestedAnimal.LegsInNestedAnimal());
+		Assert.Equal(4, Animal.NestedAnimal.LegsInNestedAnimal());
 
 		// Nested classes have access to their parent's scope.
 		// This includes private or static or constant members.
@@ -102,20 +100,18 @@ public class AboutConstants : Koan
 
 	class Reptile : Animal
 	{
-		public short LegsInReptile()
+		public static short LegsInReptile()
 		{
 			return Legs;
 		}
 	}
 
 	[Step(7)]
-	public void SubclassesInheritConstantsFromParentClasses()
+	public static void SubclassesInheritConstantsFromParentClasses()
 	{
 		// If a Reptile is an Animal, zen is achieved
 		// when you realize they too will have legs.
-		Reptile reptile = new Reptile();
-
-		Assert.Equal(4, reptile.LegsInReptile());
+		Assert.Equal(4, Reptile.LegsInReptile());
 	}
 
 	class MyAnimals
@@ -124,7 +120,7 @@ public class AboutConstants : Koan
 
 		public class Bird : Animal
 		{
-			public short LegsInBird()
+			public static short LegsInBird()
 			{
 				return Legs;
 			}
@@ -132,11 +128,9 @@ public class AboutConstants : Koan
 	}
 
 	[Step(8)]
-	public void WhoWinsWithBothNestedAndInheritedConstants()
+	public static void WhoWinsWithBothNestedAndInheritedConstants()
 	{
-		MyAnimals.Bird bird = new MyAnimals.Bird();
-
-		Assert.Equal(4, bird.LegsInBird());
+		Assert.Equal(4, MyAnimals.Bird.LegsInBird());
 
 		// The constant from the inheritance hierarchy
 		// has precedence over 

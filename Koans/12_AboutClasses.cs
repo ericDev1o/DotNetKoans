@@ -20,7 +20,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(1)]
-	public void InstancesOfAClassesCanBeCreatedWithNew()
+	public static void InstancesOfAClassesCanBeCreatedWithNew()
 	{
 		// A type that is defined as a class is a reference type.
 		// when you declare a variable of a reference type, the variable
@@ -43,7 +43,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(2)]
-	public void InstanceMembersCanBeSetByAssigningToThem()
+	public static void InstanceMembersCanBeSetByAssigningToThem()
 	{
         // Try to assign visible class members
         Foo2 foo = new()
@@ -71,7 +71,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(3)]
-	public void UseAccessorsToReturnInstanceVariables()
+	public static void UseAccessorsToReturnInstanceVariables()
 	{
 		Foo3 foo = new();
 
@@ -90,7 +90,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(4)]
-	public void UseConstructorsToDefineInitialValues()
+	public static void UseConstructorsToDefineInitialValues()
 	{
 		Foo4 foo = default;
 
@@ -106,7 +106,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(5)]
-	public void DifferentObjectsHasDifferentInstanceVariables()
+	public static void DifferentObjectsHasDifferentInstanceVariables()
 	{
 		Foo4 foo4_1 = new();
 		Foo4 foo4_2 = new();
@@ -140,7 +140,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(6)]
-	public void MemberMethodSelfRefersToContainingObject()
+	public static void MemberMethodSelfRefersToContainingObject()
 	{
 		Foo5 foo = new();
 
@@ -148,7 +148,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(7)]
-	public void ToStringProvidesStringRepresentationOfAnObject()
+	public static void ToStringProvidesStringRepresentationOfAnObject()
 	{
 		Foo5 foo = new();
 
@@ -156,7 +156,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(8)]
-	public void EqualsDeterminesObjectComparison()
+	public static void EqualsDeterminesObjectComparison()
 	{
 		Foo5 foo5_1 = new(3);
 		Foo5 foo5_2 = new(3);

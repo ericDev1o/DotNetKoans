@@ -7,7 +7,7 @@ namespace DotNetKoans.Koans;
 public class AboutDecimals : Koan
 {
 	[Step(1)]
-	public void UnquotedNumbersEndingInMAreDecimals()
+	public static void UnquotedNumbersEndingInMAreDecimals()
 	{
 		decimal d = 1m;
 
@@ -15,7 +15,7 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(2)]
-	public void DecimalsAndIntsCanPlayNice()
+	public static void DecimalsAndIntsCanPlayNice()
 	{
 		// Decimals have achieved zen when working with integers.
 		// (Thanks to C#'s automatic conversion between
@@ -31,7 +31,7 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(3)]
-	public void DecimalsAndOtherFloatingPointTypesDoNotPlayNice()
+	public static void DecimalsAndOtherFloatingPointTypesDoNotPlayNice()
 	{
 		// Since C# will not automatically convert between these types,
 		// decimals have not achieved zen when working with other
@@ -51,7 +51,7 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(4)]
-	public void DecimalsHaveMaximumAndMinimumValues()
+	public static void DecimalsHaveMaximumAndMinimumValues()
 	{
 		// Even the zen of the decimal has its limits...
 		Assert.Throws(typeof(System.OverflowException), () =>
@@ -66,7 +66,7 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(5)]
-	public void DecimalsHaveLimitedPrecision()
+	public static void DecimalsHaveLimitedPrecision()
 	{
 		decimal twentyEightDigits = 0.9999999999999999999999999999m;
 		decimal twentyNineDigits = 0.99999999999999999999999999999m;
@@ -79,7 +79,7 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(6)]
-	public void DecimalMathBehavesWell()
+	public static void DecimalMathBehavesWell()
 	{
 		decimal d = 0.1m;
 		decimal result = d + d + d + d + d + d + d;

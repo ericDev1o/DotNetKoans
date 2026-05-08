@@ -9,7 +9,7 @@ public class AboutDictionary : Koan
 {
 	// A dictionary is a C# class.
 	[Step(1)]
-	public void DictionaryIsACSharpClass()
+	public static void DictionaryIsACSharpClass()
 	{
 		Dictionary<string, string> dict = new()
         {
@@ -23,7 +23,7 @@ public class AboutDictionary : Koan
 
 	// Pass keys to get their values.
 	[Step(2)]
-	public void UsingDictionaryKeysToGetValues()
+	public static void UsingDictionaryKeysToGetValues()
 	{
 		Dictionary<string, string> dict = new()
         {
@@ -39,7 +39,7 @@ public class AboutDictionary : Koan
 
 	// Check if a key exists in Dictionary.
 	[Step(3)]
-	public void CheckIfKeyExists()
+	public static void CheckIfKeyExists()
 	{
 		Dictionary<string, string> dict = new()
         {
@@ -57,7 +57,7 @@ public class AboutDictionary : Koan
 
 	// Check if a value exists in Dictionary.
 	[Step(4)]
-	public void CheckIfValueExists()
+	public static void CheckIfValueExists()
 	{
 		Dictionary<string, string> dict = new()
         {
@@ -75,7 +75,7 @@ public class AboutDictionary : Koan
 
 	// Update the value of a key in dictionary.
 	[Step(5)]
-	public void UpdateValueOfKey()
+	public static void UpdateValueOfKey()
 	{
 		Dictionary<string, string> dict = new()
         {
@@ -96,7 +96,7 @@ public class AboutDictionary : Koan
 
 	// Remove a key from dictionary and check its value.
 	[Step(6)]
-	public void RemoveKeyAndCheckIfItExists()
+	public static void RemoveKeyAndCheckIfItExists()
 	{
 		Dictionary<string, string> dict = new()
         {
