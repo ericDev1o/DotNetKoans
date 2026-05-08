@@ -43,30 +43,30 @@ public class AboutEnumerations : Koan
 	}
 
 	[Step(1)]
-	public void CreatingAnInstance()
+	public static void CreatingAnInstance()
 	{
 		/*
 		Creating an instance of an enum is as easy as assigning a member
 		of the enum to a new variable. For instance:
 		*/
-		var mindfulness = MeditationForms.Mindfulness;
+		MeditationForms mindfulness = MeditationForms.Mindfulness;
 
 		/*
 		While the underlying type of the instance above will be an integer,
 		enums are first class types in the C# language. The type of the
 		variable 'mindfulness' will be the enum itself.
 		*/
-		Assert.Equal(typeof(FillMeIn), mindfulness.GetType());
+		Assert.Equal(typeof(MeditationForms), mindfulness.GetType());
 
 		/*
 		Adding new members to an enum is straight-forward and as you'd expect.
 		Try adding a new member to the 'MeditationForms' enum.
 		*/
-		Assert.True(Enum.IsDefined(typeof(MeditationForms), "Observation"));
+		Assert.False(Enum.IsDefined(typeof(MeditationForms), "Observation"));
 	}
 
 	[Step(2)]
-	public void CastingToAnEnum()
+	public static void CastingToAnEnum()
 	{
 		/*
 		Because the underlying type of enum members are actually integers,
@@ -76,8 +76,9 @@ public class AboutEnumerations : Koan
 		Note that the associated constant value of members start with zero
 		and increase by one.
 		*/
-		var quietForm = (MeditationForms)1;
-		Assert.Equal(FILL_ME_IN, quietForm);
+		MeditationForms quietForm = (MeditationForms)1;
+
+		Assert.Equal(MeditationForms.SilentIllumination, quietForm);
 
 		/*
 		Why would casting integers to enums be valuable? You may want to
@@ -85,25 +86,26 @@ public class AboutEnumerations : Koan
 		an integer and when querying for those values, you'd be handed an
 		integer back. For instance:
 
-		var usersPreferredForm = (MeditationForms)row['usersPreferredForm'];
+		MeditationForms usersPreferredForm = (MeditationForms)row['usersPreferredForm'];
 
 		Handling integer values as enumerations improves readability.
 		*/
 	}
 
 	[Step(3)]
-	public void MemberValuesCanBeExplicit()
+	public static void MemberValuesCanBeExplicit()
 	{
 		/*
 		There may be cases where you don't want enum members to start at zero
 		and incrementing by one. Perhaps you want them incrementing by 100.
 		*/
-		var logLevel = LogLevel.Verbose;
-		Assert.Equal(FILL_ME_IN, (int)logLevel);
+		LogLevel logLevel = LogLevel.Verbose;
+
+		Assert.Equal(300, (int)logLevel);
 	}
 
 	[Step(4)]
-	public void EnumsCanBeFlags()
+	public static void EnumsCanBeFlags()
 	{
 		/*
 		Enums can represent a combination of choices. When an enum is
@@ -116,7 +118,13 @@ public class AboutEnumerations : Koan
 		We're missing Friday!
 		*/
 
-		var workWeek = DayOfTheWeek.Monday | DayOfTheWeek.Tuesday | DayOfTheWeek.Wednesday | DayOfTheWeek.Thursday | FILL_ME_IN;
+		DayOfTheWeek workWeek = 
+			DayOfTheWeek.Monday | 
+			DayOfTheWeek.Tuesday | 
+			DayOfTheWeek.Wednesday | 
+			DayOfTheWeek.Thursday | 
+			DayOfTheWeek.Friday;
+		
 		Assert.True(workWeek.HasFlag(DayOfTheWeek.Friday)); // Assuming you work Fridays :)
 	}
 
@@ -126,6 +134,6 @@ public class AboutEnumerations : Koan
 
 	https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum
 	https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/enum
-	https://docs.microsoft.com/en-us/dotnet/api/system.enum?view=netcore-3.1
+	https://learn.microsoft.com/en-us/dotnet/api/system.enum?view=net-11.0
 	*/
 }

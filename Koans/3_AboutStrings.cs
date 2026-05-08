@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using DotNetKoans.Engine;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DotNetKoans.Koans;
 
@@ -14,31 +15,31 @@ public class AboutStrings : Koan
 	// to concatenation and newlines, and is one of the biggest
 	// causes of memory leaks in .NET applications
 
-	CultureInfo culture = new CultureInfo("fr-FR");
+	static readonly CultureInfo culture = new("fr-FR");
 
 	[Step(1)]
-	public void DoubleQuotedStringsAreStrings()
+	public static void DoubleQuotedStringsAreStrings()
 	{
 		string str = "Hello, World";
 		Assert.Equal(typeof(string), str.GetType());
 	}
 
 	[Step(2)]
-	public void SingleQuotedStringsAreNotStrings()
+	public static void SingleQuotedStringsAreNotStrings()
 	{
 		var str = 'H';
 		Assert.Equal(typeof(char), str.GetType());
 	}
 
 	[Step(3)]
-	public void CreateAStringWhichContainsDoubleQuotes()
+	public static void CreateAStringWhichContainsDoubleQuotes()
 	{
 		string str = "Hello, \"World\"";
 		Assert.Equal(14, str.Length);
 	}
 
 	[Step(4)]
-	public void AnotherWayToCreateAStringWhichContainsDoubleQuotes()
+	public static void AnotherWayToCreateAStringWhichContainsDoubleQuotes()
 	{
 		// The @ symbol creates a 'verbatim string literal'. 
 		// Here's one thing you can do with it:
@@ -47,7 +48,7 @@ public class AboutStrings : Koan
 	}
 
 	[Step(5)]
-	public void VerbatimStringsCanHandleFlexibleQuoting()
+	public static void VerbatimStringsCanHandleFlexibleQuoting()
 	{
 		string strA = @"Verbatim Strings can handle both ' and "" characters (when escaped)";
 		string strB = "Verbatim Strings can handle both ' and \" characters (when escaped)";
@@ -55,7 +56,7 @@ public class AboutStrings : Koan
 	}
 
 	[Step(6)]
-	public void VerbatimStringsCanHandleMultipleLinesToo()
+	public static void VerbatimStringsCanHandleMultipleLinesToo()
 	{
 		// Tip: What you create for the literal string will have to 
 		// escape the newline characters. For Windows, that would be
@@ -80,28 +81,28 @@ broken line";
 	}
 
 	[Step(7)]
-	public void ACrossPlatformWayToHandleLineEndings()
+	public static void ACrossPlatformWayToHandleLineEndings()
 	{
 		// Since line endings are different on different platforms
 		// (\r\n for Windows, \n for Linux) you shouldn't just type in
 		// the hardcoded escape sequence. A much better way
 		// (We'll handle concatenation and better ways of that in a bit)
-		var literalString = "I" + System.Environment.NewLine + "am a" + System.Environment.NewLine + "broken line";
-		var verbatimString =  @"I
+		string literalString = "I" + System.Environment.NewLine + "am a" + System.Environment.NewLine + "broken line";
+		string verbatimString =  @"I
 am a
 broken line";
 		Assert.Equal(literalString, verbatimString);
 	}
 
 	[Step(8)]
-	public void PlusWillConcatenateTwoStrings()
+	public static void PlusWillConcatenateTwoStrings()
 	{
 		string str = "Hello, " + "World";
 		Assert.Equal("Hello, World", str);
 	}
 
 	[Step(9)]
-	public void PlusConcatenationWillNotModifyOriginalStrings()
+	public static void PlusConcatenationWillNotModifyOriginalStrings()
 	{
 		string strA = "Hello, ";
 		string strB = "World";
@@ -111,17 +112,17 @@ broken line";
 	}
 
 	[Step(10)]
-	public void PlusEqualsWillModifyTheTargetString()
+	public static void PlusEqualsWillModifyTheTargetString()
 	{
-		var strA = "Hello, ";
-		var strB = "World";
+		string strA = "Hello, ";
+		string strB = "World";
 		strA += strB;
 		Assert.Equal("Hello, World", strA);
 		Assert.Equal("World", strB);
 	}
 
 	[Step(11)]
-	public void StringsAreReallyImmutable()
+	public static void StringsAreReallyImmutable()
 	{
 		// So here's the thing. Concatenating strings is cool
 		// and all. But if you think you are modifying the original
@@ -145,7 +146,7 @@ broken line";
 	}
 
 	[Step(12)]
-	public void ABetterWayToConcatenateLotsOfStrings()
+	public static void ABetterWayToConcatenateLotsOfStrings()
 	{
 		// Concatenating lots of strings is a Bad Idea(tm). If you need to do that, then consider StringBuilder.
 		StringBuilder strBuilder = new System.Text.StringBuilder();
@@ -167,7 +168,7 @@ broken line";
 	}
 	
 	[Step(13)]
-	public void YouCouldAlsoUseStringFormatToConcatenate()
+	public static void YouCouldAlsoUseStringFormatToConcatenate()
 	{
 		string world = "World";
 		string str = String.Format("Hello, {0}", world);
@@ -176,14 +177,14 @@ broken line";
 	}
 
 	[Step(14)]
-	public void AnyExpressionCanBeUsedInFormatString()
+	public static void AnyExpressionCanBeUsedInFormatString()
 	{
 		string str = String.Format("The square root of 9 is {0}", Math.Sqrt(9));
 		Assert.Equal("The square root of 9 is 3", str);
 	}
 
 	[Step(15)]
-	public void StringsCanBePaddedToTheLeft()
+	public static void StringsCanBePaddedToTheLeft()
 	{
 		// You can modify the value inserted into the result
 		string str = string.Format("{0,3:}", "x");
@@ -191,43 +192,43 @@ broken line";
 	}
 
 	[Step(16)]
-	public void StringsCanBePaddedToTheRight()
+	public static void StringsCanBePaddedToTheRight()
 	{
 		string str = string.Format("{0,-3:}", "x");
 		Assert.Equal("x  ", str);
 	}
 
 	[Step(17)]
-	public void SeparatorsCanBeAdded()
+	public static void SeparatorsCanBeAdded()
 	{
 		string str = string.Format(culture, "{0:n}", 123456);
-		Console.WriteLine("str: " + str);
+		
 		Assert.Equal("123\u202F456,000", str);
 	}
 
 	[Step(18)]
-	public void CurrencyDesignatorsCanBeAdded()
+	public static void CurrencyDesignatorsCanBeAdded()
 	{
 		string str = string.Format(culture, "{0:c}", 123456);
 		Assert.Equal("123\u202F456,00 €", str);
 	}
 
 	[Step(19)]
-	public void NumberOfDisplayedDecimalsCanBeControlled()
+	public static void NumberOfDisplayedDecimalsCanBeControlled()
 	{
 		string str = string.Format(culture, "{0:.##}", 12.3456);
 		Assert.Equal("12,35", str);
 	}
 
 	[Step(20)]
-	public void MinimumNumberOfDisplayedDecimalsCanBeControlled()
+	public static void MinimumNumberOfDisplayedDecimalsCanBeControlled()
 	{
 		string str = string.Format(culture, "{0:.00}", 12.3);
 		Assert.Equal("12,30", str);
 	}
 
 	[Step(21)]
-	public void BuiltInDateFormatters()
+	public static void BuiltInDateFormatters()
 	{
 		string str = string.Format(
 			culture, 
@@ -238,90 +239,90 @@ broken line";
 	}
 
 	[Step(22)]
-	public void CustomDateFormatters()
+	public static void CustomDateFormatters()
 	{
-		var str = string.Format("{0:t m}", DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture));
+		string str = string.Format("{0:t m}", DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture));
 		Assert.Equal("P 35", str);
 	}
 	// These are just a few of the formatters available. Dig some and you may find what you need.
 
 
 	[Step(23)]
-	public void StringBuilderCanUseFormatAsWell()
+	public static void StringBuilderCanUseFormatAsWell()
 	{
-		var strBuilder = new System.Text.StringBuilder();
+		StringBuilder strBuilder = new();
 		strBuilder.AppendFormat("{0} {1} {2}", "The", "quick", "brown");
 		strBuilder.AppendFormat("{0} {1} {2}", "jumped", "over", "the");
 		strBuilder.AppendFormat("{0} {1}.", "lazy", "dog");
-		var str = strBuilder.ToString();
+		string str = strBuilder.ToString();
 		Assert.Equal("The quick brownjumped over thelazy dog.", str);
 	}
 
 	[Step(24)]
-	public void LiteralStringsInterpretsEscapeCharacters()
+	public static void LiteralStringsInterpretsEscapeCharacters()
 	{
-		var str = "\n";
+		string str = "\n";
 		Assert.Equal(1, str.Length);
 	}
 
 	[Step(25)]
-	public void VerbatimStringsDoNotInterpretEscapeCharacters()
+	public static void VerbatimStringsDoNotInterpretEscapeCharacters()
 	{
-		var str = @"\n";
+		string str = @"\n";
 		Assert.Equal(2, str.Length);
 	}
 
 	[Step(26)]
-	public void VerbatimStringsStillDoNotInterpretEscapeCharacters()
+	public static void VerbatimStringsStillDoNotInterpretEscapeCharacters()
 	{
-		var str = @"\\\";
+		string str = @"\\\";
 		Assert.Equal(3, str.Length);
 	}
 
 	[Step(27)]
-	public void YouCanGetASubstringFromAString()
+	public static void YouCanGetASubstringFromAString()
 	{
-		var str = "Bacon, lettuce and tomato";
+		string str = "Bacon, lettuce and tomato";
 		Assert.Equal("tomato", str.Substring(19));
 		Assert.Equal("let", str.Substring(7, 3));
 	}
 
 	[Step(28)]
-	public void YouCanGetASingleCharacterFromAString()
+	public static void YouCanGetASingleCharacterFromAString()
 	{
-		var str = "Bacon, lettuce and tomato";
+		string str = "Bacon, lettuce and tomato";
 		Assert.Equal('B', str[0]);
 	}
 
 	[Step(29)]
-	public void SingleCharactersAreRepresentedByIntegers()
+	public static void SingleCharactersAreRepresentedByIntegers()
 	{
 		Assert.Equal(97, 'a');
 		Assert.Equal(98, 'b');
-		Assert.True('b' == ('a' + 1));
+		Assert.Equal('b', 'a' + 1);
 	}
 
 	[Step(30)]
-	public void StringsCanBeSplit()
+	public static void StringsCanBeSplit()
 	{
-		var str = "Sausage Egg Cheese";
+		string str = "Sausage Egg Cheese";
 		string[] words = str.Split();
 		Assert.Equal(new[] { "Sausage", "Egg", "Cheese" }, words);
 	}
 
 	[Step(31)]
-	public void StringsCanBeSplitUsingCharacters()
+	public static void StringsCanBeSplitUsingCharacters()
 	{
-		var str = "the:rain:in:spain";
+		string str = "the:rain:in:spain";
 		string[] words = str.Split(':');
 		Assert.Equal(new[] { "the", "rain", "in", "spain" }, words);
 	}
 
 	[Step(32)]
-	public void StringsCanBeSplitUsingRegularExpressions()
+	public static void StringsCanBeSplitUsingRegularExpressions()
 	{
-		var str = "the:rain:in:spain";
-		var regex = new System.Text.RegularExpressions.Regex(":");
+		string str = "the:rain:in:spain";
+		Regex regex = new(":");
 		string[] words = regex.Split(str);
 		Assert.Equal(new[] { "the", "rain", "in", "spain" }, words);
 
@@ -331,7 +332,7 @@ broken line";
 	}
 
 	[Step(33)]
-	public void YouCanInterpolateVariablesIntoAString()
+	public static void YouCanInterpolateVariablesIntoAString()
 	{
 		string name = "John Doe";
 		short age = 33;
@@ -340,9 +341,9 @@ broken line";
 	}
 	
 	[Step(34)]
-	public void InterpolationSupportsFormatAsWell()
+	public static void InterpolationSupportsFormatAsWell()
 	{
-		var str = $"{DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture):t m}";
+		string str = $"{DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture):t m}";
 		Assert.Equal("P 35", str);
 	}
 }

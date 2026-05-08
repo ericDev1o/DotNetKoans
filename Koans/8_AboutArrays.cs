@@ -1,109 +1,106 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 using DotNetKoans.Engine;
-
 
 namespace DotNetKoans.Koans;
 
 public class AboutArrays : Koan
 {
 	[Step(1)]
-	public void CreatingArrays()
+	public static void CreatingArrays()
 	{
-		var empty_array = new object[] { };
-		Assert.Equal(typeof(FillMeIn), empty_array.GetType());
+		object[] empty_array = [];
+		Assert.Equal(typeof(object[]), empty_array.GetType());
 
-		//Note that you have to explicitly check for subclasses
+		// Note that you have to explicitly check for subclasses
 		Assert.True(typeof(Array).IsAssignableFrom(empty_array.GetType()));
 
-		Assert.Equal(FILL_ME_IN, empty_array.Length);
+		Assert.Equal(0, empty_array.Length);
 	}
 
 	[Step(2)]
-	public void ArrayLiterals()
+	public static void ArrayLiterals()
 	{
-		//You don't have to specify a type if the arguments can be inferred
+		// You don't have to specify a type if the arguments can be inferred
 		var array = new[] { 42 };
 		Assert.Equal(typeof(int[]), array.GetType());
-		Assert.Equal(new int[] { 42 }, array);
+		Assert.Equal([42], array);
 
-		//Are arrays 0-based or 1-based?
-		Assert.Equal(42, array[FILL_ME_IN]);
+		// Are arrays 0-based or 1-based?
+		Assert.Equal(42, array[0]);
 
-		//This is important because...
+		// This is important because...
 		Assert.True(array.IsFixedSize);
 
-		//...it means we can't do this: array[1] = 13;
-		Assert.Throws(typeof(FillMeIn), delegate () { array[1] = 13; });
+		// ...it means we can't do this: array[1] = 13;
+		Assert.Throws<IndexOutOfRangeException>(() => array[1] = 13);
 
-		//This is because the array is fixed at length 1. You could write a function
-		//which created a new array bigger than the last, copied the elements over, and
-		//returned the new array. Or you could do this:
-		List<int> dynamicArray = new List<int>();
-		dynamicArray.Add(42);
+		// This is because the array is fixed at length 1. You could write a function
+		// which created a new array bigger than the last, copied the elements over, and
+		// returned the new array. Or you could do this:
+		List<int> dynamicArray = [42];
 		Assert.Equal(array, dynamicArray.ToArray());
 
 		dynamicArray.Add(13);
-		Assert.Equal((new int[] { 42, FILL_ME_IN }), dynamicArray.ToArray());
+		Assert.Equal([42, 13], [.. dynamicArray]); // [.. dynamicArray] equals dynamicArray.ToArray()
 	}
 
 	[Step(3)]
-	public void AccessingArrayElements()
+	public static void AccessingArrayElements()
 	{
-		var array = new[] { "peanut", "butter", "and", "jelly" };
+		string[] array = ["peanut", "butter", "and", "jelly"];
 
-		Assert.Equal(FILL_ME_IN, array[0]);
-		Assert.Equal(FILL_ME_IN, array[3]);
+		Assert.Equal("peanut", array[0]);
+		Assert.Equal("jelly", array[3]);
 
-		//This doesn't work: Assert.Equal(FILL_ME_IN, array[-1]);
+		// This doesn't work: Assert.Equal("jelly", array[-1]);
 	}
 
 	[Step(4)]
-	public void SlicingArrays()
+	public static void SlicingArrays()
 	{
-		var array = new[] { "peanut", "butter", "and", "jelly" };
+		string[] array = ["peanut", "butter", "and", "jelly"];
 
-		Assert.Equal(new string[] { FILL_ME_IN, FILL_ME_IN }, array.Take(2).ToArray());
-		Assert.Equal(new string[] { FILL_ME_IN, FILL_ME_IN }, array.Skip(1).Take(2).ToArray());
+		Assert.Equal(["peanut", "butter"], array.Take(2).ToArray());
+		Assert.Equal(["butter", "and"], [.. array.Skip(1).Take(2)]);
 	}
 
 	[Step(5)]
-	public void PushingAndPopping()
+	public static void PushingAndPopping()
 	{
-		var array = new[] { 1, 2 };
-		var stack = new Stack(array);
+		short[] array = [1, 2];
+		Stack stack = new(array);
 		stack.Push("last");
-		Assert.Equal(FILL_ME_IN, stack.ToArray());
+		Assert.Equal(["last", (short)2, (short)1], stack.ToArray());
 		var poppedValue = stack.Pop();
-		Assert.Equal(FILL_ME_IN, poppedValue);
-		Assert.Equal(FILL_ME_IN, stack.ToArray());
+		Assert.Equal("last", poppedValue);
+		Assert.Equal([(short)2, (short)1], stack.ToArray());
 	}
 
 	[Step(6)]
-	public void Shifting()
+	public static void Shifting()
 	{
-		//Shift == Remove First Element
-		//Unshift == Insert Element at Beginning
-		//C# doesn't provide this natively. You have a couple
-		//of options, but we'll use the LinkedList<T> to implement
-		var array = new[] { "Hello", "World" };
-		var list = new LinkedList<string>(array);
+		// Shift == Remove First Element
+		// Unshift == Insert Element at Beginning
+		// C# doesn't provide this natively. You have a couple
+		// of options, but we'll use the LinkedList<T> to implement
+		string[] array = ["Hello", "World"];
+		LinkedList<string> list = new(array);
 
 		list.AddFirst("Say");
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+		Assert.Equal(["Say", "Hello", "World"], [.. list]);
 
 		list.RemoveLast();
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+		Assert.Equal(["Say", "Hello"], [.. list]);
 
 		list.RemoveFirst();
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+		Assert.Equal(["Hello"], [.. list]);
 
 		list.AddAfter(list.Find("Hello"), "World");
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+		Assert.Equal(["Hello", "World"], [.. list]);
 	}
 
 }

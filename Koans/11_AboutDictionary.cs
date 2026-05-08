@@ -9,95 +9,110 @@ public class AboutDictionary : Koan
 {
 	// A dictionary is a C# class.
 	[Step(1)]
-	public void DictionaryIsACSharpClass()
+	public static void DictionaryIsACSharpClass()
 	{
-		var dict = new Dictionary<string, string>();
-		dict.Add("Value", "Key");
-		var firstElement = dict.First();
+		Dictionary<string, string> dict = new()
+        {
+            { "Value", "Key" }
+        };
+		KeyValuePair<string, string> firstElement = dict.First();
 
-		Assert.Equal(FILL_ME_IN, firstElement.Key); // Key
-		Assert.Equal(FILL_ME_IN, firstElement.Value); // Value
+		Assert.Equal("Value", firstElement.Key); // Key
+		Assert.Equal("Key", firstElement.Value); // Value
 	}
 
-	//Pass keys to get their values.
+	// Pass keys to get their values.
 	[Step(2)]
-	public void UsingDictionaryKeysToGetValues()
+	public static void UsingDictionaryKeysToGetValues()
 	{
-		var dict = new Dictionary<string, string>();
-		dict.Add("Bruce", "Wayne");
-		dict.Add("United Kingdom", "London");
-		dict.Add("Poland", "Warsaw");
-		dict.Add("Japan", "Tokyo");
+		Dictionary<string, string> dict = new()
+        {
+            { "Bruce", "Wayne" },
+            { "United Kingdom", "London" },
+            { "Poland", "Warsaw" },
+            { "Japan", "Tokyo" }
+        };
 
-		var key = "Japan";
-		Assert.Equal(FILL_ME_IN, dict[key]); // What is the value?            
+		string key = "Japan";
+		Assert.Equal("Tokyo", dict[key]); // What is the value?            
 	}
 
-	//Check if a key exists in Dictionary.
+	// Check if a key exists in Dictionary.
 	[Step(3)]
-	public void CheckIfKeyExists()
+	public static void CheckIfKeyExists()
 	{
-		var dict = new Dictionary<string, string>();
-		dict.Add("Bruce", "Wayne");
-		dict.Add("United Kingdom", "London");
-		dict.Add("Poland", "Warsaw");
-		dict.Add("Japan", "Tokyo");
+		Dictionary<string, string> dict = new()
+        {
+            { "Bruce", "Wayne" },
+            { "United Kingdom", "London" },
+            { "Poland", "Warsaw" },
+            { "Japan", "Tokyo" }
+        };
 
-		var key = "Jeff";
-		Assert.True(true, dict.ContainsKey(key).ToString()); // How to make this statement true?          
+		string key = "Jeff";
+		Assert.False(dict.ContainsKey(key)); // How to make this statement true?   
+		key = "Poland";
+		Assert.True(dict.ContainsKey(key));      
 	}
 
-	//Check if a value exists in Dictionary.
+	// Check if a value exists in Dictionary.
 	[Step(4)]
-	public void CheckIfValueExists()
+	public static void CheckIfValueExists()
 	{
-		var dict = new Dictionary<string, string>();
-		dict.Add("Bruce", "Wayne");
-		dict.Add("United Kingdom", "London");
-		dict.Add("Poland", "Warsaw");
-		dict.Add("Japan", "Tokyo");
+		Dictionary<string, string> dict = new()
+        {
+            { "Bruce", "Wayne" },
+            { "United Kingdom", "London" },
+            { "Poland", "Warsaw" },
+            { "Japan", "Tokyo" }
+        };
 
-		var val = "Archer";
-		Assert.True(true, dict.ContainsValue(val).ToString()); // How to make this statement true?          
+		string val = "Archer";
+		Assert.False(dict.ContainsValue(val)); // How to make this statement true?   
+		val = "London";
+		Assert.True(dict.ContainsValue(val));       
 	}
 
-	//Update the value of a key in dictionary.
+	// Update the value of a key in dictionary.
 	[Step(5)]
-	public void UpdateValueOfKey()
+	public static void UpdateValueOfKey()
 	{
-		var dict = new Dictionary<string, string>();
-		dict.Add("Bruce", "Wayne");
-		dict.Add("United Kingdom", "London");
-		dict.Add("Poland", "Warsaw");
-		dict.Add("Japan", "Tokyo");
-		dict.Add("India", "Mumbai");
+		Dictionary<string, string> dict = new()
+        {
+            { "Bruce", "Wayne" },
+            { "United Kingdom", "London" },
+            { "Poland", "Warsaw" },
+            { "Japan", "Tokyo" },
+            { "India", "Mumbai" }
+        };
 
-		var key = "India";
-		var expectedValue = "New Delhi";
+		string key = "India";
+		string expectedValue = "New Delhi";
 
-		//May be you should update this
-		//dict[key] = FILL_ME_IN;
+		dict[key] = expectedValue;
 
-		Assert.Equal(expectedValue, dict[key]); // How to make this statement true?          
+		Assert.Equal(expectedValue, dict[key]);         
 	}
 
-	//Remove a key from dictionary and check its value.
+	// Remove a key from dictionary and check its value.
 	[Step(6)]
-	public void RemoveKeyAndCheckIfItExists()
+	public static void RemoveKeyAndCheckIfItExists()
 	{
-		var dict = new Dictionary<string, string>();
-		dict.Add("Bruce", "Wayne");
-		dict.Add("United Kingdom", "London");
-		dict.Add("Poland", "Warsaw");
-		dict.Add("Japan", "Tokyo");
-		dict.Add("India", "Mumbai");
+		Dictionary<string, string> dict = new()
+        {
+            { "Bruce", "Wayne" },
+            { "United Kingdom", "London" },
+            { "Poland", "Warsaw" },
+            { "Japan", "Tokyo" },
+            { "India", "Mumbai" }
+        };
 
-		var keyToRemove = "Bruce";
+		string keyToRemove = "Bruce";
 
-		if (dict.ContainsKey(keyToRemove))
-			dict.Remove(keyToRemove);
+		Assert.True(dict.ContainsKey(keyToRemove));
+
+		dict.Remove(keyToRemove);
             
-		Assert.True(dict.ContainsKey(keyToRemove)); // How to make this statement true?          
+		Assert.False(dict.ContainsKey(keyToRemove));      
 	}
-
 }

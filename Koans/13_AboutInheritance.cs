@@ -5,17 +5,12 @@ namespace DotNetKoans.Koans;
 
 public class AboutInheritance : Koan
 {
-	public class Dog
-	{
-		public string Name { get; set; }
+	public class Dog(string name)
+    {
+        public string Name { get; set; } = name;
 
-		public Dog(string name)
-		{
-			Name = name;
-		}
-
-		// For a method/function to be overridden by sub-classes, it must be virtual.
-		public virtual string Bark()
+        // For a method/function to be overridden by sub-classes, it must be virtual.
+        public virtual string Bark()
 		{
 			return "WOOF";
 		}
@@ -32,14 +27,14 @@ public class AboutInheritance : Koan
 		{
 		}
 
-		//Unless it doesn't. You have to call the base constructor at some point
-		//with a name, but you don't have to have your class conform to that spec:
+		// Unless it doesn't. You have to call the base constructor at some point
+		// with a name, but you don't have to have your class conform to that spec:
 		public Chihuahua() : base("Ima Chihuahua")
 		{
 		}
 
 		// For a Chihuahua to do something different than a regular "Dog"
-		// when called to "Bark", the base class must be virtual and the
+		// when called to "Bark", the base method must be virtual and the
 		// derived class must declare it as "override".
 		public override string Bark()
 		{
@@ -55,65 +50,68 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(1)]
-	public void SubclassesHaveTheParentAsAnAncestor()
+	public static void SubclassesHaveTheParentAsAnAncestor()
 	{
-		Assert.True(typeof(FillMeIn).IsAssignableFrom(typeof(Chihuahua)));
+		Assert.True(typeof(Dog).IsAssignableFrom(typeof(Chihuahua)));
 	}
 
 	[Step(2)]
-	public void AllClassesUltimatelyInheritFromAnObject()
+	public static void AllClassesUltimatelyInheritFromAnObject()
 	{
-		Assert.True(typeof(FillMeIn).IsAssignableFrom(typeof(Chihuahua)));
+		Assert.True(typeof(object).IsAssignableFrom(typeof(Chihuahua)));
 	}
 
 	[Step(3)]
-	public void SubclassesInheritBehaviorFromParentClass()
+	public static void SubclassesInheritBehaviorFromParentClass()
 	{
-		var chico = new Chihuahua("Chico");
-		Assert.Equal(FILL_ME_IN, chico.Name);
+		Chihuahua chico = new("Chico");
+
+		Assert.Equal("Chico", chico.Name);
 	}
 
 	[Step(4)]
-	public void SubclassesAddNewBehavior()
+	public static void SubclassesAddNewBehavior()
 	{
-		var chico = new Chihuahua("Chico");
-		Assert.Equal(FILL_ME_IN, chico.Wag());
+		Chihuahua chico = new("Chico");
 
-		//We can search the public methods of an object 
-		//instance like this:
+		Assert.Equal("Happy", chico.Wag());
+
+		// We can search the public methods of an object 
+		// instance like this:
 		Assert.NotNull(chico.GetType().GetMethod("Wag"));
 
-		//So we can show that the Wag method isn't on Dog. 
-		//Proving you can't wag the dog. 
-		var dog = new Dog("Fluffy");
+		// So we can show that the Wag method isn't on Dog. 
+		// Proving you can't wag the dog. 
+		Dog dog = new("Fluffy");
 		Assert.Null(dog.GetType().GetMethod("Wag"));
 	}
 
 	[Step(5)]
-	public void SubclassesCanModifyExistingBehavior()
+	public static void SubclassesCanModifyExistingBehavior()
 	{
-		var chico = new Chihuahua("Chico");
-		Assert.Equal(FILL_ME_IN, chico.Bark());
+		Chihuahua chico = new("Chico");
 
-		//Note that even if we cast the object back to a dog
-		//we still get the Chihuahua's behavior. It truly
-		//"is-a" Chihuahua
+		Assert.Equal("yip", chico.Bark());
+
+		// Note that even if we cast the object back to a dog
+		// we still get the Chihuahua's behavior. It truly
+		// "is-a" Chihuahua
 		Dog dog = chico as Dog;
-		Assert.Equal(FILL_ME_IN, dog.Bark());
 
-		var fido = new Dog("Fido");
-		Assert.Equal(FILL_ME_IN, fido.Bark());
+		Assert.Equal("yip", dog.Bark());
+
+		Dog fido = new("Fido");
+
+		Assert.Equal("WOOF", fido.Bark());
 	}
 
-	public class ReallyYippyChihuahua : Chihuahua
+	public class ReallyYippyChihuahua(string name) : Chihuahua(name)
 	{
-		public ReallyYippyChihuahua(string name) : base(name) { }
+        // It is possible to redefine behavior for classes where
+        // the methods were not marked virtual - but it can really
+        // get you if you aren't careful. For example:
 
-		//It is possible to redefine behavior for classes where
-		//the methods were not marked virtual - but it can really
-		//get you if you aren't careful. For example:
-
-		public new string Wag()
+        public new string Wag()
 		{
 			return "WAG WAG WAG!!";
 		}
@@ -121,56 +119,58 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(6)]
-	public void SubclassesCanRedefineBehaviorThatIsNotVirtual()
+	public static void SubclassesCanRedefineBehaviorThatIsNotVirtual()
 	{
-		ReallyYippyChihuahua suzie = new ReallyYippyChihuahua("Suzie");
-		Assert.Equal(FILL_ME_IN, suzie.Wag());
+		ReallyYippyChihuahua suzie = new("Suzie");
+
+		Assert.Equal("WAG WAG WAG!!", suzie.Wag());
 	}
 
 	[Step(7)]
-	public void NewingAMethodDoesNotChangeTheBaseBehavior()
+	public static void NewingAMethodDoesNotChangeTheBaseBehavior()
 	{
-		//This is vital to understand. In Koan 6, you saw that the Wag
-		//method did what we defined in our class. But what happens
-		//when we do this?
+		// This is vital to understand. In Koan 6, you saw that the Wag
+		// method did what we defined in our class. But what happens
+		// when we do this?
 		Chihuahua bennie = new ReallyYippyChihuahua("Bennie");
-		Assert.Equal(FILL_ME_IN, bennie.Wag());
 
-		//That's right. The behavior of the object is dependent solely
-		//on who you are pretending to be. Unlike when you override a
-		//virtual method. Remember this in your path to enlightenment.
+		Assert.Equal("Happy", bennie.Wag());
+
+		// That's right. The behavior of the object is dependent solely
+		// on who you are pretending to be. Unlike when you override a
+		// virtual method. Remember this in your path to enlightenment.
 
 	}
 
-	public class BullDog : Dog
+	public class BullDog(string name) : Dog(name)
 	{
-		public BullDog(string name) : base(name) { }
-		public override string Bark()
+        public override string Bark()
 		{
 			return base.Bark() + ", GROWL";
 		}
 	}
 
 	[Step(8)]
-	public void SubclassesCanInvokeParentBehaviorUsingBase()
+	public static void SubclassesCanInvokeParentBehaviorUsingBase()
 	{
-		var ralph = new BullDog("Ralph");
-		Assert.Equal(FILL_ME_IN, ralph.Bark());
+		BullDog ralph = new("Ralph");
+		
+		Assert.Equal("WOOF, GROWL", ralph.Bark());
 	}
 
-	public class GreatDane : Dog
+	public class GreatDane(string name) : Dog(name)
 	{
-		public GreatDane(string name) : base(name) { }
-		public string Growl()
+        public string Growl()
 		{
 			return base.Bark() + ", GROWL";
 		}
 	}
 
 	[Step(9)]
-	public void YouCanCallBaseEvenFromOtherMethods()
+	public static void YouCanCallBaseEvenFromOtherMethods()
 	{
-		var george = new GreatDane("George");
-		Assert.Equal(FILL_ME_IN, george.Growl());
+		GreatDane george = new("George");
+
+		Assert.Equal("WOOF, GROWL", george.Growl());
 	}
 }
