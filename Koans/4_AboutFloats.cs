@@ -1,7 +1,6 @@
 using System.Globalization;
 using Xunit;
 using DotNetKoans.Engine;
-using System;
 
 namespace DotNetKoans.Koans;
 
@@ -100,7 +99,7 @@ public class AboutFloats : Koan
 		float f = 0.3f + 1.6f;
 		CultureInfo culture = new CultureInfo("fr-FR");
 		string str = string.Format(culture, "{0:.#}", f);
-		
+
 		Assert.Equal("1,9", str);
 
 		// Math with floating point numbers doesn't always behave how humans expect.
