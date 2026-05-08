@@ -83,11 +83,10 @@ public class AboutClasses : Koan
 		foo.Do();
 	}
 
-	class Foo4
-	{
-		public string Bar { get; }
-		public Foo4(string value = default) => Bar = value;
-	}
+	class Foo4(string value = default)
+    {
+        public string Bar { get; } = value;
+    }
 
 	[Step(4)]
 	public static void UseConstructorsToDefineInitialValues()
