@@ -111,8 +111,7 @@ public class AboutDictionary : Koan
 
 		Assert.True(dict.ContainsKey(keyToRemove));
 
-		if (dict.ContainsKey(keyToRemove))
-			dict.Remove(keyToRemove);
+		dict.Remove(keyToRemove);
             
 		Assert.False(dict.ContainsKey(keyToRemove));      
 	}
