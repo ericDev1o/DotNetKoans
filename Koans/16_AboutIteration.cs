@@ -1,8 +1,4 @@
 using Xunit;
-using System.Reflection;
-using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
 using DotNetKoans.Engine;
 
@@ -13,21 +9,21 @@ public class AboutIteration : Koan
 	// We can use several C# constructs to iterate over items in a collection
 
 	[Step(1)]
-	public void ForLoop()
+	public static void ForLoop()
 	{
 		// Let's make a list with some numbers
-		var numbers = new List<int>()
-		{
-			42,
+		List<short> numbers =
+        [
+            42,
 			68,
 			12
-		};
+		];
 
-		int sum = 0;
+		short sum = 0;
 		// A for loop has three parts: something to run before the loop starts for the first time,
 		// a condition that will decide whether to keep iterating, and something to do after each iteration
 
-		for (var i = 0; FILL_ME_IN; i++)
+		for (short i = 0; i < numbers.Count; i++)
 		{
 			sum += numbers[i];
 		}
@@ -37,19 +33,19 @@ public class AboutIteration : Koan
 
 
 	[Step(2)]
-	public void ForBreak()
+	public static void ForBreak()
 	{
 		// We can interrupt a for loop with "break;"
 
-		var animals = new string[] { "Cats", "Dogs", "Sharks" };
+		string[] animals = ["Cats", "Dogs", "Sharks"];
 		string lastAnimal = "";
 
-		for (var i = 0; i < animals.Length; i++)
+		for (short i = 0; i < animals.Length; i++)
 		{
 			lastAnimal = animals[i];
 			if (animals[i] == "Dogs")
 			{
-				//FILL_ME_IN
+				break;
 			}
 		}
 
@@ -57,19 +53,18 @@ public class AboutIteration : Koan
 	}
 
 	[Step(3)]
-	public void ForContinue()
+	public static void ForContinue()
 	{
 		// We can ignore the rest of the current iteration using "continue;"
 
-		var colors = new List<string> { "Blue", "Red", "Pink", "Green" };
+		List<string> colors = ["Blue", "Red", "Pink", "Green"];
+		List<string> new_colors = [];
 
-		var new_colors = new List<string>();
-		var lastColor = "";
-		for (var i = 0; i < colors.Count; i++)
+        for (short i = 0; i < colors.Count; i++)
 		{
 			if (colors[i] == "Blue")
 			{
-				//FILL_ME_IN
+				continue;
 			}
 			new_colors.Add(colors[i]);
 		}
@@ -79,24 +74,23 @@ public class AboutIteration : Koan
 
 
 	[Step(4)]
-	public void WhileLoop()
+	public static void WhileLoop()
 	{
 		// This loop is sort of like the for loop, but only requires the middle part
-		var numbers = new List<int>()
-		{
+		List<short> numbers = 
+		[
 			42,
 			68,
 			12
-		};
+		];
+		short sum = 0;
 
-		int sum = 0;
+		// A while loop will keep repeating until the condition at the start is false.
+		// So we need to initialize any variables the loop needs before it, and to change those variables inside the loop itself.
+		// Let's do it backwards, just for fun.
 
-		// A while loop will keep repeating until the condition at the start is false
-		// So we need to initialize any variables the loop needs before it, and to change those variables inside the loop itself
-		// Let's do it backwards, just for fun
-
-		int i = 2;
-		while (FILL_ME_IN)
+		short i = 2;
+		while (i >= 0)
 		{
 			sum += numbers[i];
 			i--;
@@ -107,24 +101,23 @@ public class AboutIteration : Koan
 
 
 	[Step(5)]
-	public void ForeachLoop()
+	public static void ForeachLoop()
 	{
 		// What if we had a way to iterate over any sort of collection that does not require us
 		// to have to deal with an index and risk making a mistake that makes our program crash?
 
-		// A foreach loop will iterate through a collection all by itself, assigning the current iteration's value to a variable
-		// No more dealing with index variables
+		// A foreach loop will iterate through a collection all by itself, assigning the current iteration's value to a variable.
+		// No more dealing with index variables.
 
-		var sharkSpecies = new List<string> {
+		List<string> sharkSpecies = [
 			"Great white shark",
 			"Tiger shark",
 			"Whale shark",
 			"Leopard shark"
-		};
-
+		];
 		string lastShark = "";
 
-		foreach (var shark in FILL_ME_IN)
+		foreach (string shark in sharkSpecies)
 		{
 			lastShark = shark;
 		}
