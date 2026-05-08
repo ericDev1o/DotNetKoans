@@ -8,7 +8,7 @@ namespace DotNetKoans.Koans;
 public class AboutControlStatements : Koan
 {
 	[Step(1)]
-	public void IfThenElseStatementsWithBrackets()
+	public static void IfThenElseStatementsWithBrackets()
 	{
 		bool b;
 		if (true)
@@ -20,11 +20,11 @@ public class AboutControlStatements : Koan
 			b = false;
 		}
 
-		Assert.Equal(FILL_ME_IN, b);
+		Assert.True(b);
 	}
 
 	[Step(2)]
-	public void IfThenElseStatementsWithoutBrackets()
+	public static void IfThenElseStatementsWithoutBrackets()
 	{
 		bool b;
 		if (true)
@@ -32,75 +32,76 @@ public class AboutControlStatements : Koan
 		else
 			b = false;
 
-		Assert.Equal(FILL_ME_IN, b);
+		Assert.True(b);
 
 	}
 
 	[Step(3)]
-	public void IfThenStatementsWithBrackets()
+	public static void IfThenStatementsWithBrackets()
 	{
-		bool b = false;
-		if (true)
+        bool b;
+        if (true)
 		{
 			b = true;
 		}
 
-		Assert.Equal(FILL_ME_IN, b);
+		Assert.True(b);
 	}
 
 	[Step(4)]
-	public void IfThenStatementsWithoutBrackets()
+	public static void IfThenStatementsWithoutBrackets()
 	{
-		bool b = false;
-		if (true)
+        bool b;
+        if (true)
 			b = true;
 
-		Assert.Equal(FILL_ME_IN, b);
+		Assert.True(b);
 	}
 
 	[Step(5)]
-	public void WhyItsWiseToAlwaysUseBrackets()
+	public static void WhyItsWiseToAlwaysUseBrackets()
 	{
 		bool b1 = false;
-		bool b2 = false;
-
-		int counter = 1;
+        int counter = 1;
 
 		if (counter == 0)
 			b1 = true;
-		b2 = true;
+        bool b2 = true;
 
-		Assert.Equal(FILL_ME_IN, b1);
-		Assert.Equal(FILL_ME_IN, b2);
+        Assert.False(b1);
+		Assert.True(b2);
 	}
 
 	[Step(6)]
-	public void TernaryOperators()
+	public static void TernaryOperators()
 	{
-		Assert.Equal(FILL_ME_IN, (true ? 1 : 0));
-		Assert.Equal(FILL_ME_IN, (false ? 1 : 0));
+		Assert.Equal(1, true ? 1 : 0);
+		Assert.Equal(0, false ? 1 : 0);
 	}
 
-	//This is out of place for control statements, but necessary for Koan 8
+	// This is out of place for control statements, but necessary for Koan 8
 	[Step(7)]
-	public void NullableTypes()
+	public static void NullableTypes()
 	{
 		int i = 0;
-		//i = null; //You can't do this
+		//i = null; // You can't do this.
+		int j; // It's not advised to do that.
 
-		int? nullableInt = null; //but you can do this
-		Assert.NotNull(FILL_ME_IN);
-		Assert.Null(FILL_ME_IN);
+		int? nullableInt = null; // but you can do this
+		//Assert.NotNull(i); // Don"t assert for Null reference on value types.
+		//Assert.Null(j);
+		Assert.Equal(0, i);
+		Assert.Null(nullableInt);
 	}
 
 	[Step(8)]
-	public void AssignIfNullOperator()
+	public static void AssignIfNullOperator()
 	{
 		int? nullableInt = null;
 
 		int x = nullableInt ?? 42;
 
-		Assert.Equal(FILL_ME_IN, x);
+		Assert.Equal(42, x);
 	}
 
 	[Step(9)]
@@ -112,90 +113,102 @@ public class AboutControlStatements : Koan
 
 		var myType = this;
 
-		if (myType is Koan)
-			isKoan = true;
+		if (myType is not null) {
+			if (myType is Koan)
+				isKoan = true;
 
-		if (myType is AboutControlStatements)
-			isAboutControlStatements = true;
+			if (myType is AboutControlStatements)
+				isAboutControlStatements = true;
 
-		if (myType is AboutMethods)
-			isAboutMethods = true;
+			if (myType is AboutMethods)
+				isAboutMethods = true;
+		}
 
-		Assert.Equal(FILL_ME_IN, isKoan);
-		Assert.Equal(FILL_ME_IN, isAboutControlStatements);
-		Assert.Equal(FILL_ME_IN, isAboutMethods);
-
+		Assert.True(isKoan);
+		Assert.True(isAboutControlStatements);
+		Assert.False(isAboutMethods);
 	}
 
 	[Step(10)]
-	public void WhileStatement()
+	public static void WhileStatement()
 	{
 		int i = 1;
 		int result = 1;
+		
 		while (i <= 3)
 		{
-			result = result + i;
+			result += i;
 			i += 1;
 		}
-		Assert.Equal(FILL_ME_IN, result);
+
+		Assert.Equal(7, result);
 	}
 
 	[Step(11)]
-	public void BreakStatement()
+	public static void BreakStatement()
 	{
 		int i = 1;
 		int result = 1;
+
 		while (true)
 		{
-			if (i > 3) { break; }
-			result = result + i;
+			if (i > 3) 
+				break;
+			result += i;
 			i += 1;
 		}
-		Assert.Equal(FILL_ME_IN, result);
+
+		Assert.Equal(7, result);
 	}
 
 	[Step(12)]
-	public void ContinueStatement()
+	public static void ContinueStatement()
 	{
 		int i = 0;
 		var result = new List<int>();
+
 		while (i < 10)
 		{
 			i += 1;
 			if ((i % 2) == 0) { continue; }
 			result.Add(i);
 		}
-		Assert.Equal(FILL_ME_IN, result);
+		Assert.Equal([1, 3, 5, 7, 9], result);
 	}
 
 	[Step(13)]
-	public void ForStatement()
+	public static void ForStatement()
 	{
 		var list = new List<string> { "fish", "and", "chips" };
+
 		for (int i = 0; i < list.Count; i++)
 		{
-			list[i] = (list[i].ToUpper());
+			list[i] = list[i].ToUpper();
 		}
-		Assert.Equal(FILL_ME_IN, list);
+		
+		Assert.Equal(["FISH", "AND", "CHIPS"], list);
 	}
 
 	[Step(14)]
-	public void ForEachStatement()
+	public static void ForEachStatement()
 	{
 		var list = new List<string> { "fish", "and", "chips" };
 		var finalList = new List<string>();
+
 		foreach (string item in list)
 		{
 			finalList.Add(item.ToUpper());
 		}
-		Assert.Equal(FILL_ME_IN, list);
-		Assert.Equal(FILL_ME_IN, finalList);
+
+		Assert.Equal(["fish", "and", "chips"], list);
+		Assert.Equal(["FISH", "AND", "CHIPS"], finalList);
 	}
 
 	[Step(15)]
-	public void ModifyingACollectionDuringForEach()
+	public static void ModifyingACollectionDuringForEach()
 	{
 		var list = new List<string> { "fish", "and", "chips" };
+
 		try
 		{
 			foreach (string item in list)
@@ -205,12 +218,12 @@ public class AboutControlStatements : Koan
 		}
 		catch (Exception ex)
 		{
-			Assert.Equal(typeof(FillMeIn), ex.GetType());
+			Assert.Equal(typeof(InvalidOperationException), ex.GetType());
 		}
 	}
 
 	[Step(16)]
-	public void CatchingModificationExceptions()
+	public static void CatchingModificationExceptions()
 	{
 		string whoCaughtTheException = "No one";
 
@@ -234,6 +247,6 @@ public class AboutControlStatements : Koan
 			whoCaughtTheException = "When we tried to move to the next item in the list";
 		}
 
-		Assert.Equal(FILL_ME_IN, whoCaughtTheException);
+		Assert.Equal("When we tried to move to the next item in the list", whoCaughtTheException);
 	}
 }
