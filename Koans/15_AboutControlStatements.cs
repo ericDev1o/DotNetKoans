@@ -62,7 +62,7 @@ public class AboutControlStatements : Koan
 	public static void WhyItsWiseToAlwaysUseBrackets()
 	{
 		bool b1 = false;
-        int counter = 1;
+        short counter = 1;
 
 		if (counter == 0)
 			b1 = true;
@@ -83,23 +83,23 @@ public class AboutControlStatements : Koan
 	[Step(7)]
 	public static void NullableTypes()
 	{
-		int i = 0;
+		short i = 0;
 		//i = null; // You can't do this.
-		int j; // It's not advised to do that.
+		short j; // It's not advised to do that.
 
-		int? nullableInt = null; // but you can do this
+		short? nullableShort = null; // but you can do this
 		//Assert.NotNull(i); // Don"t assert for Null reference on value types.
 		//Assert.Null(j);
 		Assert.Equal(0, i);
-		Assert.Null(nullableInt);
+		Assert.Null(nullableShort);
 	}
 
 	[Step(8)]
 	public static void AssignIfNullOperator()
 	{
-		int? nullableInt = null;
+		short? nullableShort = null;
 
-		int x = nullableInt ?? 42;
+		short x = nullableShort ?? 42;
 
 		Assert.Equal(42, x);
 	}
@@ -132,8 +132,8 @@ public class AboutControlStatements : Koan
 	[Step(10)]
 	public static void WhileStatement()
 	{
-		int i = 1;
-		int result = 1;
+		short i = 1;
+		short result = 1;
 		
 		while (i <= 3)
 		{
@@ -147,8 +147,8 @@ public class AboutControlStatements : Koan
 	[Step(11)]
 	public static void BreakStatement()
 	{
-		int i = 1;
-		int result = 1;
+		short i = 1;
+		short result = 1;
 
 		while (true)
 		{
@@ -164,8 +164,8 @@ public class AboutControlStatements : Koan
 	[Step(12)]
 	public static void ContinueStatement()
 	{
-		int i = 0;
-		var result = new List<int>();
+		short i = 0;
+		var result = new List<short>();
 
 		while (i < 10)
 		{
@@ -181,7 +181,7 @@ public class AboutControlStatements : Koan
 	{
 		var list = new List<string> { "fish", "and", "chips" };
 
-		for (int i = 0; i < list.Count; i++)
+		for (short i = 0; i < list.Count; i++)
 		{
 			list[i] = list[i].ToUpper();
 		}
