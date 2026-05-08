@@ -9,90 +9,97 @@ namespace DotNetKoans.Koans;
 public class AboutGenericContainers : Koan
 {
 	[Step(1)]
-	public void ArrayListSizeIsDynamic()
+	public static void ArrayListSizeIsDynamic()
 	{
-		//When you worked with Array, the fact that Array is fixed size was glossed over.
-		//The size of an array cannot be changed after you allocate it. To get around that
-		//you need a class from the System.Collections namespace such as ArrayList
-		ArrayList list = new ArrayList();
-		Assert.Equal(FILL_ME_IN, list.Count);
+		// When you worked with Array, the fact that Array is fixed size was glossed over.
+		// The size of an array cannot be changed after you allocate it. To get around that
+		// you need a class from the System.Collections namespace such as ArrayList.
+		ArrayList list = [];
+
+		Assert.Equal(0, list.Count);
 
 		list.Add(42);
-		Assert.Equal(FILL_ME_IN, list.Count);
+		
+		Assert.Equal(1, list.Count);
 	}
 
 	[Step(2)]
-	public void ArrayListHoldsObjects()
+	public static void ArrayListHoldsObjects()
 	{
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
+
 		System.Reflection.MethodInfo method = list.GetType().GetMethod("Add");
-		Assert.Equal(typeof(FillMeIn), method.GetParameters()[0].ParameterType);
+		
+		Assert.Equal(typeof(object), method.GetParameters()[0].ParameterType);
 	}
 
 	[Step(3)]
-	public void MustCastWhenRetrieving()
+	public static void MustCastWhenRetrieving()
 	{
-		//There are a few problems with ArrayList holding object references. The first 
-		//is that you must cast the items you fetch back to the original type.
-		ArrayList list = new ArrayList();
-		list.Add(42);
-		int x = 0;
-		//x = (int)list[0];
-		Assert.Equal(42, x);
+		// There are a few problems with ArrayList holding object references. The first 
+		// is that you must cast the items you fetch back to the original type.
+		ArrayList list = [(short)42];
+
+		short x = (short)list[0];
+
+		Assert.Equal((short)42, x);
 	}
 
 	[Step(4)]
-	public void ArrayListIsNotStronglyTyped()
+	public static void ArrayListIsNotStronglyTyped()
 	{
-		//Having to cast everywhere is tedious. But there is also another issue lurking
-		//ArrayList can hold more than one type. 
-		ArrayList list = new ArrayList();
-		list.Add(42);
-		list.Add("forty two");
-		Assert.Equal(FILL_ME_IN, list[0]);
-		Assert.Equal(FILL_ME_IN, list[1]);
+		// Having to cast everywhere is tedious. But there is also another issue lurking.
+		// ArrayList can hold more than one type. 
+		ArrayList list = [42, "forty two"];
 
-		//While there are a few cases where it could be nice, instead what it means is that 
-		//anytime your code works with an array list you have to check that the element is 
-		//of the type you expect.
+		Assert.Equal(42, list[0]);
+		Assert.Equal("forty two", list[1]);
+
+		// While there are a few cases where it could be nice, instead what it means is that 
+		// anytime your code works with an array list you have to check that the element is 
+		// of the type you expect.
 	}
 
 	[Step(5)]
-	public void Boxing()
+	public static void Boxing()
 	{
 		short s = 5;
+
 		object os = s;
+
 		Assert.Equal(s.GetType(), os.GetType());
 		Assert.Equal(s, os);
 
-		//While it is true that everything is an object and all the above passes, not everything is quite as it seems.
-		//Under the covers .NET allocates memory for all value type objects (int, double, bool,...) on the stack. This is 
-		//considerably more efficient than a heap allocation. .NET also has the ability to put a value type onto the heap.
-		//(for calling methods and other reasons). The process of putting stack data into the heap is called "boxing". The 
-		//process of taking the value type off the heap is called "unboxing". We won't go into the details (see Jeffrey 
-		//Richter's book if you want details). This subject comes up because every time you put a value type into an 
-		//ArrayList it must be boxed. Every time you read it from the ArrayList it must be unboxed. This can be a significant
-		//cost.
+		// While it is true that everything is an object and all the above passes, not everything is quite as it seems.
+		// Under the covers .NET allocates memory for all value type objects (int, double, bool,...) on the stack. This is 
+		// considerably more efficient than a heap allocation. .NET also has the ability to put a value type onto the heap.
+		// (for calling methods and other reasons). The process of putting stack data into the heap is called "boxing". The 
+		// process of taking the value type off the heap is called "unboxing". We won't go into the details (see Jeffrey 
+		// Richter's book if you want details). This subject comes up because every time you put a value type into an 
+		// ArrayList it must be boxed. Every time you read it from the ArrayList it must be unboxed. This can be a significant
+		// cost.
 	}
 
 	[Step(6)]
-	public void ABetterDynamicSizeContainer()
+	public static void ABetterDynamicSizeContainer()
 	{
-		//ArrayList is a .NET 1.0 container. With .NET 2.0 generics were introduced and with it a new set of collections in
-		//System.Collections.Generic The array like container is List<T>. List<T> (read "list of T") is a generic class. 
-		//The "T" in the definition of List<T> is the type argument. You cannot declare an instance of List<T> without also
-		//supplying a type in place of T.
-		var list = new List<int>();
-		Assert.Equal(FILL_ME_IN, list.Count);
+		// ArrayList is a .NET 1.0 container. With .NET 2.0 generics were introduced and with it a new set of collections in
+		// System.Collections.Generic The array like container is List<T>. List<T> (read "list of T") is a generic class. 
+		// The "T" in the definition of List<T> is the type argument. You cannot declare an instance of List<T> without also
+		// supplying a type in place of T.
+		List<short> list = [];
+
+		Assert.Equal(0, list.Count);
 
 		list.Add(42);
-		Assert.Equal(FILL_ME_IN, list.Count);
 
-		//Now just like int[], you can have a type safe dynamic sized container
-		//list.Add("forty two"); //<--Unlike ArrayList this is illegal.
+		Assert.Equal(1, list.Count);
 
-		//List<T> also solves the boxing/unboxing issues of ArrayList. Unfortunately, you'll have to take Microsoft's word for it
-		//as I can't find a way to prove it without some ugly MSIL beyond the scope of these Koans.
+		// Now just like short[], you can have a type safe dynamic sized container
+		// list.Add("forty two"); // <--Unlike ArrayList this is illegal.
+
+		// List<T> also solves the boxing/unboxing issues of ArrayList. Unfortunately, you'll have to take Microsoft's word for it
+		// as I can't find a way to prove it without some ugly MSIL beyond the scope of these Koans.
 	}
 
 	public class Widget
@@ -100,252 +107,305 @@ public class AboutGenericContainers : Koan
 	}
 
 	[Step(7)]
-	public void ListWorksWithAnyType()
+	public static void ListWorksWithAnyType()
 	{
-		//Just as with Array, list will work with any type
-		List<Widget> list = new List<Widget>();
-		list.Add(new Widget());
-		Assert.Equal(FILL_ME_IN, list.Count);
+		// Just as with Array, list will work with any type
+		List<Widget> list = [new Widget()];
+
+		Assert.Equal(1, list.Count);
 	}
 
 	[Step(8)]
-	public void InitializingWithValues()
+	public static void InitializingWithValues()
 	{
-		//Like array you can create a list with an initial set of values easily
-		var list = new List<int> { 1, 2, 3 };
-		Assert.Equal(FILL_ME_IN, list.Count);
+		// Like array you can create a list with an initial set of values easily
+		List<short> list = [1, 2, 3];
+
+		Assert.Equal(3, list.Count);
 	}
 
 	[Step(9)]
-	public void AddMultipleItems()
+	public static void AddMultipleItems()
 	{
 		//You can add multiple items to a list at once
-		List<int> list = new List<int>();
-		list.AddRange(new[] { 1, 2, 3 });
-		Assert.Equal(FILL_ME_IN, list.Count);
+		List<short> list = [];
+
+		list.AddRange([1, 2, 3]);
+
+		Assert.Equal(3, list.Count);
 	}
 
 	[Step(10)]
-	public void RandomAccess()
+	public static void RandomAccess()
 	{
-		//Just as with array, you can use the subscript notation to access any element in a list.
-		List<int> list = new List<int> { 5, 6, 7 };
-		Assert.Equal(FILL_ME_IN, list[2]);
+		// Just as with array, you can use the subscript notation to access any element in a list.
+		List<short> list = [5, 6, 7];
+
+		Assert.Equal((short)7, list[2]);
 	}
 
 	[Step(11)]
-	public void BeyondTheLimits()
+	public static void BeyondTheLimits()
 	{
-		List<int> list = new List<int> { 1, 2, 3 };
-		//You cannot attempt to get data that doesn't exist
-		Assert.Throws(typeof(FillMeIn), delegate () { int x = list[3]; });
+		List<short> list = [1, 2, 3];
+		// You cannot attempt to get data that doesn't exist
+
+		Assert.Throws<ArgumentOutOfRangeException>(() => list[3]);
 	}
 
 	[Step(12)]
-	public void ConvertingToFixedSize()
+	public static void ConvertingToFixedSize()
 	{
-		List<int> list = new List<int> { 1, 2, 3 };
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+		List<short> list = [1, 2, 3];
+
+		Assert.Equal([(short)1, (short)2, (short)3], [.. list]); // [.. list] equals list.ToArray()
 	}
 
 	[Step(13)]
-	public void InsertingInTheMiddle()
+	public static void InsertingInTheMiddle()
 	{
-		List<int> list = new List<int> { 1, 2, 3 };
+		List<short> list = [1, 2, 3];
+
 		list.Insert(1, 6);
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+
+		Assert.Equal([(short)1, (short)6, (short)2, (short)3], [.. list]);
 	}
 
 	[Step(14)]
-	public void RemovingItems()
+	public static void RemovingItems()
 	{
-		List<int> list = new List<int> { 2, 1, 2, 3 };
+		List<short> list = [2, 1, 2, 3];
+
 		list.Remove(2);
-		Assert.Equal(FILL_ME_IN, list.ToArray());
+
+		Assert.Equal([(short)1, (short)2, (short)3], [.. list]);
 	}
 
 	[Step(15)]
-	public void StackPushPop()
+	public static void StackPushPop()
 	{
-		var stack = new Stack<int>();
-		Assert.Equal(FILL_ME_IN, stack.Count);
+		Stack<short> stack = new();
+
+		Assert.Equal(0, stack.Count);
 
 		stack.Push(42);
-		Assert.Equal(FILL_ME_IN, stack.Count);
 
-		int x = stack.Pop();
-		Assert.Equal(FILL_ME_IN, x);
+		Assert.Equal(1, stack.Count);
 
-		Assert.Equal(FILL_ME_IN, stack.Count);
+		short x = stack.Pop();
+
+		Assert.Equal((short)42, x);
+
+		Assert.Equal(0, stack.Count);
 	}
 
 	[Step(16)]
-	public void StackOrder()
+	public static void StackOrder()
 	{
-		var stack = new Stack<int>();
+		Stack<short> stack = new();
+
 		stack.Push(1);
 		stack.Push(2);
 		stack.Push(3);
 
-		Assert.Equal(FILL_ME_IN, stack.ToArray());
+		Assert.Equal([(short)3, (short)2, (short)1], [.. stack]);
 	}
 
 	[Step(17)]
-	public void PeekingIntoAQueue()
+	public static void PeekingIntoAQueue()
 	{
-		Queue<string> queue = new Queue<string>();
+		Queue<string> queue = new();
 		queue.Enqueue("one");
-		Assert.Equal(FILL_ME_IN, queue.Peek());
+
+		Assert.Equal("one", queue.Peek());
+		Assert.Equal(1, queue.Count);
+
 		queue.Enqueue("two");
-		Assert.Equal(FILL_ME_IN, queue.Peek());
+
+		Assert.Equal("one", queue.Peek());
+		Assert.Equal(2, queue.Count);
 	}
 
 	[Step(18)]
-	public void RemovingItemsFromTheQueue()
+	public static void RemovingItemsFromTheQueue()
 	{
-		Queue<string> queue = new Queue<string>();
+		Queue<string> queue = new();
 		queue.Enqueue("one");
 		queue.Enqueue("two");
-		Assert.Equal(FILL_ME_IN, queue.Dequeue());
-		Assert.Equal(FILL_ME_IN, queue.Count);
+
+		Assert.Equal(2, queue.Count);
+		Assert.Equal("one", queue.Dequeue());
+		Assert.Equal(1, queue.Count);
 	}
 
 	[Step(19)]
-	public void AddingToADictionary()
+	public static void AddingToADictionary()
 	{
-		//Dictionary<TKey, TValue> is .NET's key value store. The key and the value do not need to be the same types.
-		Dictionary<int, string> dictionary = new Dictionary<int, string>();
-		Assert.Equal(FILL_ME_IN, dictionary.Count);
+		// Dictionary<TKey, TValue> is .NET's key value store. The key and the value do not need to be the same types.
+		Dictionary<short, string> dictionary = [];
+
+		Assert.Equal(0, dictionary.Count);
+
 		dictionary[1] = "one";
-		Assert.Equal(FILL_ME_IN, dictionary.Count);
+		
+		Assert.Equal(1, dictionary.Count);
 	}
 
 	[Step(20)]
-	public void AccessingData()
+	public static void AccessingData()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		dictionary["two"] = "dos";
-		//The most common way to locate data is with the subscript notation.
-		Assert.Equal(FILL_ME_IN, dictionary["one"]);
-		Assert.Equal(FILL_ME_IN, dictionary["two"]);
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno",
+            ["two"] = "dos"
+        };
+		
+		// The most common way to locate data is with the subscript notation.
+		Assert.Equal("uno", dictionary["one"]);
+		Assert.Equal("dos", dictionary["two"]);
 	}
 
 	[Step(21)]
-	public void AccessingDataNotAdded()
+	public static void AccessingDataNotAdded()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		Assert.Throws(typeof(FillMeIn), delegate () { string s = dictionary["two"]; });
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno"
+        };
+
+		Assert.Throws<KeyNotFoundException>(() => dictionary["two"]);
 	}
 
 	[Step(22)]
-	public void CatchingMissingData()
+	public static void CatchingMissingData()
 	{
-		//To deal with the throw when data is not there, you could wrap the data access in a try/catch block...
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		string result;
-		try
+		// To deal with the throw when data is not there, you could wrap the data access in a try/catch block...
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno"
+        };
+        string result;
+		
+        try
 		{
 			result = dictionary["two"];
 		}
-		catch (Exception ex)
-		{
+		catch (Exception)
+        {
 			result = "dos";
 		}
-		Assert.Equal(FILL_ME_IN, result);
+
+		Assert.Equal("dos", result);
 	}
 
 	[Step(23)]
-	public void PreCheckForMissingData()
+	public static void PreCheckForMissingData()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		string result;
-		if (dictionary.ContainsKey("two"))
-		{
-			result = dictionary["two"];
-		}
-		else
-		{
-			result = "dos";
-		}
-		Assert.Equal(FILL_ME_IN, result);
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno"
+        };
+
+        if (!dictionary.TryGetValue("two", out string result))
+        {
+            result = "dos";
+        }
+
+        Assert.Equal("dos", result);
 	}
 
 	[Step(24)]
-	public void TryGetValueForMissingData()
+	public static void TryGetValueForMissingData()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		string result;
-		if (!dictionary.TryGetValue("two", out result))
-		{
-			result = "dos";
-		}
-		Assert.Equal(FILL_ME_IN, result);
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno"
+        };
+
+        if (!dictionary.TryGetValue("two", out string result))
+        {
+            result = "dos";
+        }
+
+        Assert.Equal("dos", result);
 	}
 
 	[Step(25)]
-	public void InitializingADictionary()
+	public static void InitializingADictionary()
 	{
-		//Although it is not common, you can initialize a dictionary...
-		var dictionary = new Dictionary<string, string> { { "one", "uno" }, { "two", "dos" } };
-		Assert.Equal(FILL_ME_IN, dictionary["one"]);
-		Assert.Equal(FILL_ME_IN, dictionary["two"]);
+		// Although it is not common, you can initialize a dictionary...
+		Dictionary<string, string> dictionary = new() 
+		{ 
+			{ "one", "uno" }, 
+			{ "two", "dos" } 
+		};
+
+		Assert.Equal("uno", dictionary["one"]);
+		Assert.Equal("dos", dictionary["two"]);
 	}
 
 	[Step(26)]
-	public void ModifyingData()
+	public static void ModifyingData()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		dictionary["two"] = "dos";
-		dictionary["one"] = "ein";
-		Assert.Equal(FILL_ME_IN, dictionary["one"]);
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno",
+            ["two"] = "dos",
+            ["one"] = "ein"
+        };
+
+		Assert.Equal("ein", dictionary["one"]);
 	}
 
 	[Step(27)]
-	public void KeyExists()
+	public static void KeyExists()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		Assert.Equal(FILL_ME_IN, dictionary.ContainsKey("one"));
-		Assert.Equal(FILL_ME_IN, dictionary.ContainsKey("two"));
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno"
+        };
+
+		Assert.True(dictionary.ContainsKey("one"));
+		Assert.False(dictionary.ContainsKey("two"));
 	}
 
 	[Step(28)]
-	public void ValueExists()
+	public static void ValueExists()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
-		dictionary["one"] = "uno";
-		Assert.Equal(FILL_ME_IN, dictionary.ContainsValue("uno"));
-		Assert.Equal(FILL_ME_IN, dictionary.ContainsValue("dos"));
+		Dictionary<string, string> dictionary = new()
+        {
+            ["one"] = "uno"
+        };
+
+		Assert.True(dictionary.ContainsValue("uno"));
+		Assert.False(dictionary.ContainsValue("dos"));
 	}
 
 	[Step(29)]
-	public void AddingDataViaSubscript()
+	public static void AddingDataViaSubscript()
 	{
-		//The Dictionary also has some smarts built-in... You can use
-		//the subscript operator, [], to add data to it. Consider
-		//carefully the foreach loop below.
-		Dictionary<string, int> one = new Dictionary<string, int>();
-		one["jim"] = 53;
-		one["amy"] = 20;
-		one["dan"] = 23;
+		// The Dictionary also has some smarts built-in... You can use
+		// the subscript operator, [], to add data to it. Consider
+		// carefully the foreach loop below.
+		Dictionary<string, short> one = new()
+        {
+            ["jim"] = 53,
+            ["amy"] = 20,
+            ["dan"] = 23
+        };
+		Dictionary<string, short> two = new()
+        {
+            ["jim"] = 54,
+            ["jenny"] = 26
+        };
 
-		Dictionary<string, int> two = new Dictionary<string, int>();
-		two["jim"] = 54;
-		two["jenny"] = 26;
-
-		foreach (KeyValuePair<string, int> item in two)
+		foreach (KeyValuePair<string, short> item in two)
 		{
 			one[item.Key] = item.Value;
 		}
 
-		Assert.Equal(FILL_ME_IN, one["jim"]);
-		Assert.Equal(FILL_ME_IN, one["jenny"]);
-		Assert.Equal(FILL_ME_IN, one["amy"]);
+		Assert.Equal((short)54, one["jim"]);
+		Assert.Equal((short)26, one["jenny"]);
+		Assert.Equal((short)20, one["amy"]);
 	}
 }
