@@ -50,29 +50,29 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(1)]
-	public void SubclassesHaveTheParentAsAnAncestor()
+	public static void SubclassesHaveTheParentAsAnAncestor()
 	{
 		Assert.True(typeof(Dog).IsAssignableFrom(typeof(Chihuahua)));
 	}
 
 	[Step(2)]
-	public void AllClassesUltimatelyInheritFromAnObject()
+	public static void AllClassesUltimatelyInheritFromAnObject()
 	{
 		Assert.True(typeof(object).IsAssignableFrom(typeof(Chihuahua)));
 	}
 
 	[Step(3)]
-	public void SubclassesInheritBehaviorFromParentClass()
+	public static void SubclassesInheritBehaviorFromParentClass()
 	{
-		Chihuahua chico = new Chihuahua("Chico");
+		Chihuahua chico = new("Chico");
 
 		Assert.Equal("Chico", chico.Name);
 	}
 
 	[Step(4)]
-	public void SubclassesAddNewBehavior()
+	public static void SubclassesAddNewBehavior()
 	{
-		Chihuahua chico = new Chihuahua("Chico");
+		Chihuahua chico = new("Chico");
 
 		Assert.Equal("Happy", chico.Wag());
 
@@ -82,14 +82,14 @@ public class AboutInheritance : Koan
 
 		// So we can show that the Wag method isn't on Dog. 
 		// Proving you can't wag the dog. 
-		Dog dog = new Dog("Fluffy");
+		Dog dog = new("Fluffy");
 		Assert.Null(dog.GetType().GetMethod("Wag"));
 	}
 
 	[Step(5)]
-	public void SubclassesCanModifyExistingBehavior()
+	public static void SubclassesCanModifyExistingBehavior()
 	{
-		Chihuahua chico = new Chihuahua("Chico");
+		Chihuahua chico = new("Chico");
 
 		Assert.Equal("yip", chico.Bark());
 
@@ -100,7 +100,7 @@ public class AboutInheritance : Koan
 
 		Assert.Equal("yip", dog.Bark());
 
-		Dog fido = new Dog("Fido");
+		Dog fido = new("Fido");
 
 		Assert.Equal("WOOF", fido.Bark());
 	}
@@ -119,7 +119,7 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(6)]
-	public void SubclassesCanRedefineBehaviorThatIsNotVirtual()
+	public static void SubclassesCanRedefineBehaviorThatIsNotVirtual()
 	{
 		ReallyYippyChihuahua suzie = new("Suzie");
 
@@ -127,7 +127,7 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(7)]
-	public void NewingAMethodDoesNotChangeTheBaseBehavior()
+	public static void NewingAMethodDoesNotChangeTheBaseBehavior()
 	{
 		// This is vital to understand. In Koan 6, you saw that the Wag
 		// method did what we defined in our class. But what happens
@@ -151,9 +151,9 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(8)]
-	public void SubclassesCanInvokeParentBehaviorUsingBase()
+	public static void SubclassesCanInvokeParentBehaviorUsingBase()
 	{
-		BullDog ralph = new BullDog("Ralph");
+		BullDog ralph = new("Ralph");
 		
 		Assert.Equal("WOOF, GROWL", ralph.Bark());
 	}
@@ -167,7 +167,7 @@ public class AboutInheritance : Koan
 	}
 
 	[Step(9)]
-	public void YouCanCallBaseEvenFromOtherMethods()
+	public static void YouCanCallBaseEvenFromOtherMethods()
 	{
 		GreatDane george = new("George");
 

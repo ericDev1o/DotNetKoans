@@ -12,35 +12,35 @@ public class AboutBooleans : Koan
 	// can be used interchangeably.
 
 	[Step(1)]
-	public void TrueIsTreatedAsTrue()
+	public static void TrueIsTreatedAsTrue()
 	{
 		// true is true
 		Assert.True(true);
 	}
 
 	[Step(2)]
-	public void FalseIsTreatedAsFalse()
+	public static void FalseIsTreatedAsFalse()
 	{
 		// false is false
 		Assert.False(false);
 	}
 
 	[Step(3)]
-	public void TrueIsNotFalse()
+	public static void TrueIsNotFalse()
 	{
 		// true is not false
 		Assert.True( ! false);
 	}
 
 	[Step(4)]
-	public void BoolIsAReservedWordOfSystemBoolean()
+	public static void BoolIsAReservedWordOfSystemBoolean()
 	{
 		// bool is a Alias of System.Boolean
 		Assert.Equal(typeof(System.Boolean), typeof(bool));
 	}
 
 	[Step(5)]
-	public void NoOtherTypeConvertsToBool()
+	public static void NoOtherTypeConvertsToBool()
 	{
 		object[] otherTypes = new object[]
 		{

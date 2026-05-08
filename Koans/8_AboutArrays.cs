@@ -10,7 +10,7 @@ namespace DotNetKoans.Koans;
 public class AboutArrays : Koan
 {
 	[Step(1)]
-	public void CreatingArrays()
+	public static void CreatingArrays()
 	{
 		object[] empty_array = [];
 		Assert.Equal(typeof(object[]), empty_array.GetType());
@@ -22,7 +22,7 @@ public class AboutArrays : Koan
 	}
 
 	[Step(2)]
-	public void ArrayLiterals()
+	public static void ArrayLiterals()
 	{
 		// You don't have to specify a type if the arguments can be inferred
 		var array = new[] { 42 };
@@ -49,7 +49,7 @@ public class AboutArrays : Koan
 	}
 
 	[Step(3)]
-	public void AccessingArrayElements()
+	public static void AccessingArrayElements()
 	{
 		string[] array = ["peanut", "butter", "and", "jelly"];
 
@@ -60,7 +60,7 @@ public class AboutArrays : Koan
 	}
 
 	[Step(4)]
-	public void SlicingArrays()
+	public static void SlicingArrays()
 	{
 		string[] array = ["peanut", "butter", "and", "jelly"];
 
@@ -69,19 +69,19 @@ public class AboutArrays : Koan
 	}
 
 	[Step(5)]
-	public void PushingAndPopping()
+	public static void PushingAndPopping()
 	{
-		var array = new[] {1, 2};
+		short[] array = [1, 2];
 		Stack stack = new(array);
 		stack.Push("last");
-		Assert.Equal(["last", 2, 1], stack.ToArray());
+		Assert.Equal(["last", (short)2, (short)1], stack.ToArray());
 		var poppedValue = stack.Pop();
 		Assert.Equal("last", poppedValue);
-		Assert.Equal([2, 1], stack.ToArray());
+		Assert.Equal([(short)2, (short)1], stack.ToArray());
 	}
 
 	[Step(6)]
-	public void Shifting()
+	public static void Shifting()
 	{
 		// Shift == Remove First Element
 		// Unshift == Insert Element at Beginning

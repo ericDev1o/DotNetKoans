@@ -20,7 +20,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(1)]
-	public void InstancesOfAClassesCanBeCreatedWithNew()
+	public static void InstancesOfAClassesCanBeCreatedWithNew()
 	{
 		// A type that is defined as a class is a reference type.
 		// when you declare a variable of a reference type, the variable
@@ -43,10 +43,10 @@ public class AboutClasses : Koan
 	}
 
 	[Step(2)]
-	public void InstanceMembersCanBeSetByAssigningToThem()
+	public static void InstanceMembersCanBeSetByAssigningToThem()
 	{
         // Try to assign visible class members
-        var foo = new Foo2
+        Foo2 foo = new()
         {
             Int = 1,
             _str = "Bar"
@@ -71,9 +71,9 @@ public class AboutClasses : Koan
 	}
 
 	[Step(3)]
-	public void UseAccessorsToReturnInstanceVariables()
+	public static void UseAccessorsToReturnInstanceVariables()
 	{
-		var foo = new Foo3();
+		Foo3 foo = new();
 
 		Assert.Throws<InvalidOperationException>(foo.Do);
 
@@ -83,14 +83,13 @@ public class AboutClasses : Koan
 		foo.Do();
 	}
 
-	class Foo4
-	{
-		public string Bar { get; }
-		public Foo4(string value = default) => Bar = value;
-	}
+	class Foo4(string value = default)
+    {
+        public string Bar { get; } = value;
+    }
 
 	[Step(4)]
-	public void UseConstructorsToDefineInitialValues()
+	public static void UseConstructorsToDefineInitialValues()
 	{
 		Foo4 foo = default;
 
@@ -106,14 +105,16 @@ public class AboutClasses : Koan
 	}
 
 	[Step(5)]
-	public void DifferentObjectsHasDifferentInstanceVariables()
+	public static void DifferentObjectsHasDifferentInstanceVariables()
 	{
 		Foo4 foo4_1 = new();
 		Foo4 foo4_2 = new();
+
 		Assert.Equal(foo4_1.Bar, foo4_2.Bar);
 
 		foo4_1 = new("1");
 		foo4_2 = new("2");
+		
 		Assert.NotEqual(foo4_1.Bar, foo4_2.Bar);
 	}
 
@@ -140,7 +141,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(6)]
-	public void MemberMethodSelfRefersToContainingObject()
+	public static void MemberMethodSelfRefersToContainingObject()
 	{
 		Foo5 foo = new();
 
@@ -148,7 +149,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(7)]
-	public void ToStringProvidesStringRepresentationOfAnObject()
+	public static void ToStringProvidesStringRepresentationOfAnObject()
 	{
 		Foo5 foo = new();
 
@@ -156,7 +157,7 @@ public class AboutClasses : Koan
 	}
 
 	[Step(8)]
-	public void EqualsDeterminesObjectComparison()
+	public static void EqualsDeterminesObjectComparison()
 	{
 		Foo5 foo5_1 = new(3);
 		Foo5 foo5_2 = new(3);

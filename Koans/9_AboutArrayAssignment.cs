@@ -13,7 +13,7 @@ public class AboutArrayAssignment : Koan
 	// tricks we can pick up.
 
 	[Step(1)]
-	public void ImplicitAssignment()
+	public static void ImplicitAssignment()
 	{
 		// Even though we don't specify types explicitly, the compiler
 		// will pick one for us
@@ -28,11 +28,12 @@ public class AboutArrayAssignment : Koan
 	}
 
 	[Step(2)]
-	public void ImplicitArrayAssignmentWithSameTypes()
+	public static void ImplicitArrayAssignmentWithSameTypes()
 	{
 		// Even though we don't specify types explicitly, the compiler
 		// will pick one for us
 		var names = new[] { "John", "Smith" };
+		
 		Assert.Equal(typeof(string[]), names.GetType());
 
 		// but only if it can. So this doesn't work
@@ -40,11 +41,12 @@ public class AboutArrayAssignment : Koan
 	}
 
 	[Step(3)]
-	public void MultipleAssignmentsOnSingleLine()
+	public static void MultipleAssignmentsOnSingleLine()
 	{
 		// You can do multiple assignments on one line, but you 
 		// still have to be explicit
 		string firstName = "John", lastName = "Smith";
+
 		Assert.Equal("John", firstName);
 		Assert.Equal("Smith", lastName);
 	}

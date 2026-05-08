@@ -9,13 +9,13 @@ public class AboutDictionary : Koan
 {
 	// A dictionary is a C# class.
 	[Step(1)]
-	public void DictionaryIsACSharpClass()
+	public static void DictionaryIsACSharpClass()
 	{
-		var dict = new Dictionary<string, string>
+		Dictionary<string, string> dict = new()
         {
             { "Value", "Key" }
         };
-		var firstElement = dict.First();
+		KeyValuePair<string, string> firstElement = dict.First();
 
 		Assert.Equal("Value", firstElement.Key); // Key
 		Assert.Equal("Key", firstElement.Value); // Value
@@ -23,9 +23,9 @@ public class AboutDictionary : Koan
 
 	// Pass keys to get their values.
 	[Step(2)]
-	public void UsingDictionaryKeysToGetValues()
+	public static void UsingDictionaryKeysToGetValues()
 	{
-		var dict = new Dictionary<string, string>
+		Dictionary<string, string> dict = new()
         {
             { "Bruce", "Wayne" },
             { "United Kingdom", "London" },
@@ -33,15 +33,15 @@ public class AboutDictionary : Koan
             { "Japan", "Tokyo" }
         };
 
-		var key = "Japan";
+		string key = "Japan";
 		Assert.Equal("Tokyo", dict[key]); // What is the value?            
 	}
 
 	// Check if a key exists in Dictionary.
 	[Step(3)]
-	public void CheckIfKeyExists()
+	public static void CheckIfKeyExists()
 	{
-		var dict = new Dictionary<string, string>
+		Dictionary<string, string> dict = new()
         {
             { "Bruce", "Wayne" },
             { "United Kingdom", "London" },
@@ -49,7 +49,7 @@ public class AboutDictionary : Koan
             { "Japan", "Tokyo" }
         };
 
-		var key = "Jeff";
+		string key = "Jeff";
 		Assert.False(dict.ContainsKey(key)); // How to make this statement true?   
 		key = "Poland";
 		Assert.True(dict.ContainsKey(key));      
@@ -57,9 +57,9 @@ public class AboutDictionary : Koan
 
 	// Check if a value exists in Dictionary.
 	[Step(4)]
-	public void CheckIfValueExists()
+	public static void CheckIfValueExists()
 	{
-		var dict = new Dictionary<string, string>
+		Dictionary<string, string> dict = new()
         {
             { "Bruce", "Wayne" },
             { "United Kingdom", "London" },
@@ -67,7 +67,7 @@ public class AboutDictionary : Koan
             { "Japan", "Tokyo" }
         };
 
-		var val = "Archer";
+		string val = "Archer";
 		Assert.False(dict.ContainsValue(val)); // How to make this statement true?   
 		val = "London";
 		Assert.True(dict.ContainsValue(val));       
@@ -75,9 +75,9 @@ public class AboutDictionary : Koan
 
 	// Update the value of a key in dictionary.
 	[Step(5)]
-	public void UpdateValueOfKey()
+	public static void UpdateValueOfKey()
 	{
-		var dict = new Dictionary<string, string>
+		Dictionary<string, string> dict = new()
         {
             { "Bruce", "Wayne" },
             { "United Kingdom", "London" },
@@ -86,8 +86,8 @@ public class AboutDictionary : Koan
             { "India", "Mumbai" }
         };
 
-		var key = "India";
-		var expectedValue = "New Delhi";
+		string key = "India";
+		string expectedValue = "New Delhi";
 
 		dict[key] = expectedValue;
 
@@ -96,9 +96,9 @@ public class AboutDictionary : Koan
 
 	// Remove a key from dictionary and check its value.
 	[Step(6)]
-	public void RemoveKeyAndCheckIfItExists()
+	public static void RemoveKeyAndCheckIfItExists()
 	{
-		var dict = new Dictionary<string, string>
+		Dictionary<string, string> dict = new()
         {
             { "Bruce", "Wayne" },
             { "United Kingdom", "London" },
@@ -107,12 +107,11 @@ public class AboutDictionary : Koan
             { "India", "Mumbai" }
         };
 
-		var keyToRemove = "Bruce";
+		string keyToRemove = "Bruce";
 
 		Assert.True(dict.ContainsKey(keyToRemove));
 
-		if (dict.ContainsKey(keyToRemove))
-			dict.Remove(keyToRemove);
+		dict.Remove(keyToRemove);
             
 		Assert.False(dict.ContainsKey(keyToRemove));      
 	}

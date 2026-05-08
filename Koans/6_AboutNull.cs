@@ -7,7 +7,7 @@ namespace DotNetKoans.Koans;
 public class AboutNull : Koan
 {
 	[Step(1)]
-	public void NullIsNotAnObject()
+	public static void NullIsNotAnObject()
 	{
 		Assert.False(null is object);
 
@@ -16,7 +16,7 @@ public class AboutNull : Koan
 	}
 
 	[Step(2)]
-	public void YouGetNullPointerErrorsWhenCallingMethodsOnNull()
+	public static void YouGetNullPointerErrorsWhenCallingMethodsOnNull()
 	{
 		// What is the Exception that is thrown when you call a method on a null object?
 		// Don't be confused by the code below. It is using Anonymous Delegates which we will
@@ -37,23 +37,26 @@ public class AboutNull : Koan
 	}
 
 	[Step(3)]
-	public void CheckingThatAnObjectIsNull()
+	public static void CheckingThatAnObjectIsNull()
 	{
 		object obj = null;
-		Assert.True(obj == null);
+
+		Assert.Null(obj);
 	}
 
 	[Step(4)]
-	public void ABetterWayToCheckThatAnObjectIsNull()
+	public static void ABetterWayToCheckThatAnObjectIsNull()
 	{
 		object obj = null;
+
 		Assert.Null(obj);
 	}
 
 	[Step(5)]
-	public void AWayNotToCheckThatAnObjectIsNull()
+	public static void AWayNotToCheckThatAnObjectIsNull()
 	{
 		object obj = null;
+		
 		Assert.Throws<NullReferenceException>(() => obj.Equals(null));
 	}
 }

@@ -7,15 +7,15 @@ namespace DotNetKoans.Koans;
 public class AboutDecimals : Koan
 {
 	[Step(1)]
-	public void UnquotedNumbersEndingInMAreDecimals()
+	public static void UnquotedNumbersEndingInMAreDecimals()
 	{
-		var d = 1m;
+		decimal d = 1m;
 
 		Assert.Equal(typeof(decimal), d.GetType());
 	}
 
 	[Step(2)]
-	public void DecimalsAndIntsCanPlayNice()
+	public static void DecimalsAndIntsCanPlayNice()
 	{
 		// Decimals have achieved zen when working with integers.
 		// (Thanks to C#'s automatic conversion between
@@ -23,7 +23,7 @@ public class AboutDecimals : Koan
 		decimal d = 5.2m;
 		int n = 7;
 
-		var result = d + n;
+		decimal result = d + n;
 
 		Assert.Equal(12.2m, result);
 
@@ -31,7 +31,7 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(3)]
-	public void DecimalsAndOtherFloatingPointTypesDoNotPlayNice()
+	public static void DecimalsAndOtherFloatingPointTypesDoNotPlayNice()
 	{
 		// Since C# will not automatically convert between these types,
 		// decimals have not achieved zen when working with other
@@ -51,25 +51,25 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(4)]
-	public void DecimalsHaveMaximumAndMinimumValues()
+	public static void DecimalsHaveMaximumAndMinimumValues()
 	{
 		// Even the zen of the decimal has its limits...
-		Assert.Throws(typeof(System.OverflowException), () =>
+		Assert.Throws<System.OverflowException>(() =>
 		{
-			var d = decimal.Parse("79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
+			decimal d = decimal.Parse("79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
 		});
 
-		Assert.Throws(typeof(System.OverflowException), () =>
+		Assert.Throws<System.OverflowException>(() =>
 		{
-			var d = decimal.Parse("-79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
+			decimal d = decimal.Parse("-79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
 		});
 	}
 
 	[Step(5)]
-	public void DecimalsHaveLimitedPrecision()
+	public static void DecimalsHaveLimitedPrecision()
 	{
-		var twentyEightDigits = 0.9999999999999999999999999999m;
-		var twentyNineDigits = 0.99999999999999999999999999999m;
+		decimal twentyEightDigits = 0.9999999999999999999999999999m;
+		decimal twentyNineDigits = 0.99999999999999999999999999999m;
 
 		Assert.Equal(0.9999999999999999999999999999m, twentyEightDigits);
 		Assert.Equal(1, twentyNineDigits);
@@ -79,12 +79,12 @@ public class AboutDecimals : Koan
 	}
 
 	[Step(6)]
-	public void DecimalMathBehavesWell()
+	public static void DecimalMathBehavesWell()
 	{
-		var d = 0.1m;
-		var result = d + d + d + d + d + d + d;
+		decimal d = 0.1m;
+		decimal result = d + d + d + d + d + d + d;
 
-		Assert.True(result == 0.7m);
+		Assert.Equal(0.7m, result);
 
 		// The zen of the decimal is quite exceptional indeed. Unlike
 		// floats, they are able to handle math the way humans expect. 
