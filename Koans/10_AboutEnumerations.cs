@@ -49,7 +49,7 @@ public class AboutEnumerations : Koan
 		Creating an instance of an enum is as easy as assigning a member
 		of the enum to a new variable. For instance:
 		*/
-		var mindfulness = MeditationForms.Mindfulness;
+		MeditationForms mindfulness = MeditationForms.Mindfulness;
 
 		/*
 		While the underlying type of the instance above will be an integer,
@@ -76,7 +76,7 @@ public class AboutEnumerations : Koan
 		Note that the associated constant value of members start with zero
 		and increase by one.
 		*/
-		var quietForm = (MeditationForms)1;
+		MeditationForms quietForm = (MeditationForms)1;
 
 		Assert.Equal(MeditationForms.SilentIllumination, quietForm);
 
@@ -86,7 +86,7 @@ public class AboutEnumerations : Koan
 		an integer and when querying for those values, you'd be handed an
 		integer back. For instance:
 
-		var usersPreferredForm = (MeditationForms)row['usersPreferredForm'];
+		MeditationForms usersPreferredForm = (MeditationForms)row['usersPreferredForm'];
 
 		Handling integer values as enumerations improves readability.
 		*/
@@ -99,7 +99,7 @@ public class AboutEnumerations : Koan
 		There may be cases where you don't want enum members to start at zero
 		and incrementing by one. Perhaps you want them incrementing by 100.
 		*/
-		var logLevel = LogLevel.Verbose;
+		LogLevel logLevel = LogLevel.Verbose;
 
 		Assert.Equal(300, (int)logLevel);
 	}
@@ -118,7 +118,7 @@ public class AboutEnumerations : Koan
 		We're missing Friday!
 		*/
 
-		var workWeek = 
+		DayOfTheWeek workWeek = 
 			DayOfTheWeek.Monday | 
 			DayOfTheWeek.Tuesday | 
 			DayOfTheWeek.Wednesday | 

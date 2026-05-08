@@ -165,7 +165,7 @@ public class AboutControlStatements : Koan
 	public static void ContinueStatement()
 	{
 		short i = 0;
-		var result = new List<short>();
+		List<short> result = [];
 
 		while (i < 10)
 		{
@@ -179,7 +179,7 @@ public class AboutControlStatements : Koan
 	[Step(13)]
 	public static void ForStatement()
 	{
-		var list = new List<string> { "fish", "and", "chips" };
+		List<string> list = ["fish", "and", "chips"];
 
 		for (short i = 0; i < list.Count; i++)
 		{
@@ -192,8 +192,8 @@ public class AboutControlStatements : Koan
 	[Step(14)]
 	public static void ForEachStatement()
 	{
-		var list = new List<string> { "fish", "and", "chips" };
-		var finalList = new List<string>();
+		List<string> list = ["fish", "and", "chips"];
+		List<string> finalList = [];
 
 		foreach (string item in list)
 		{
@@ -207,7 +207,7 @@ public class AboutControlStatements : Koan
 	[Step(15)]
 	public static void ModifyingACollectionDuringForEach()
 	{
-		var list = new List<string> { "fish", "and", "chips" };
+		List<string> list = ["fish", "and", "chips"];
 
 		try
 		{
@@ -227,7 +227,7 @@ public class AboutControlStatements : Koan
 	{
 		string whoCaughtTheException = "No one";
 
-		var list = new List<string> { "fish", "and", "chips" };
+		List<string> list = ["fish", "and", "chips"];
 		try
 		{
 			foreach (string item in list)

@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using DotNetKoans.Engine;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DotNetKoans.Koans;
 
@@ -86,8 +87,8 @@ broken line";
 		// (\r\n for Windows, \n for Linux) you shouldn't just type in
 		// the hardcoded escape sequence. A much better way
 		// (We'll handle concatenation and better ways of that in a bit)
-		var literalString = "I" + System.Environment.NewLine + "am a" + System.Environment.NewLine + "broken line";
-		var verbatimString =  @"I
+		string literalString = "I" + System.Environment.NewLine + "am a" + System.Environment.NewLine + "broken line";
+		string verbatimString =  @"I
 am a
 broken line";
 		Assert.Equal(literalString, verbatimString);
@@ -113,8 +114,8 @@ broken line";
 	[Step(10)]
 	public void PlusEqualsWillModifyTheTargetString()
 	{
-		var strA = "Hello, ";
-		var strB = "World";
+		string strA = "Hello, ";
+		string strB = "World";
 		strA += strB;
 		Assert.Equal("Hello, World", strA);
 		Assert.Equal("World", strB);
@@ -240,7 +241,7 @@ broken line";
 	[Step(22)]
 	public void CustomDateFormatters()
 	{
-		var str = string.Format("{0:t m}", DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture));
+		string str = string.Format("{0:t m}", DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture));
 		Assert.Equal("P 35", str);
 	}
 	// These are just a few of the formatters available. Dig some and you may find what you need.
@@ -249,39 +250,39 @@ broken line";
 	[Step(23)]
 	public void StringBuilderCanUseFormatAsWell()
 	{
-		var strBuilder = new System.Text.StringBuilder();
+		StringBuilder strBuilder = new();
 		strBuilder.AppendFormat("{0} {1} {2}", "The", "quick", "brown");
 		strBuilder.AppendFormat("{0} {1} {2}", "jumped", "over", "the");
 		strBuilder.AppendFormat("{0} {1}.", "lazy", "dog");
-		var str = strBuilder.ToString();
+		string str = strBuilder.ToString();
 		Assert.Equal("The quick brownjumped over thelazy dog.", str);
 	}
 
 	[Step(24)]
 	public void LiteralStringsInterpretsEscapeCharacters()
 	{
-		var str = "\n";
+		string str = "\n";
 		Assert.Equal(1, str.Length);
 	}
 
 	[Step(25)]
 	public void VerbatimStringsDoNotInterpretEscapeCharacters()
 	{
-		var str = @"\n";
+		string str = @"\n";
 		Assert.Equal(2, str.Length);
 	}
 
 	[Step(26)]
 	public void VerbatimStringsStillDoNotInterpretEscapeCharacters()
 	{
-		var str = @"\\\";
+		string str = @"\\\";
 		Assert.Equal(3, str.Length);
 	}
 
 	[Step(27)]
 	public void YouCanGetASubstringFromAString()
 	{
-		var str = "Bacon, lettuce and tomato";
+		string str = "Bacon, lettuce and tomato";
 		Assert.Equal("tomato", str.Substring(19));
 		Assert.Equal("let", str.Substring(7, 3));
 	}
@@ -289,7 +290,7 @@ broken line";
 	[Step(28)]
 	public void YouCanGetASingleCharacterFromAString()
 	{
-		var str = "Bacon, lettuce and tomato";
+		string str = "Bacon, lettuce and tomato";
 		Assert.Equal('B', str[0]);
 	}
 
@@ -304,7 +305,7 @@ broken line";
 	[Step(30)]
 	public void StringsCanBeSplit()
 	{
-		var str = "Sausage Egg Cheese";
+		string str = "Sausage Egg Cheese";
 		string[] words = str.Split();
 		Assert.Equal(new[] { "Sausage", "Egg", "Cheese" }, words);
 	}
@@ -312,7 +313,7 @@ broken line";
 	[Step(31)]
 	public void StringsCanBeSplitUsingCharacters()
 	{
-		var str = "the:rain:in:spain";
+		string str = "the:rain:in:spain";
 		string[] words = str.Split(':');
 		Assert.Equal(new[] { "the", "rain", "in", "spain" }, words);
 	}
@@ -320,8 +321,8 @@ broken line";
 	[Step(32)]
 	public void StringsCanBeSplitUsingRegularExpressions()
 	{
-		var str = "the:rain:in:spain";
-		var regex = new System.Text.RegularExpressions.Regex(":");
+		string str = "the:rain:in:spain";
+		Regex regex = new(":");
 		string[] words = regex.Split(str);
 		Assert.Equal(new[] { "the", "rain", "in", "spain" }, words);
 
@@ -342,7 +343,7 @@ broken line";
 	[Step(34)]
 	public void InterpolationSupportsFormatAsWell()
 	{
-		var str = $"{DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture):t m}";
+		string str = $"{DateTime.Parse("12/16/2011 2:35:02 PM", CultureInfo.InvariantCulture):t m}";
 		Assert.Equal("P 35", str);
 	}
 }

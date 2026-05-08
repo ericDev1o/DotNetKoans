@@ -71,13 +71,13 @@ public class AboutArrays : Koan
 	[Step(5)]
 	public void PushingAndPopping()
 	{
-		var array = new[] {1, 2};
+		short[] array = [1, 2];
 		Stack stack = new(array);
 		stack.Push("last");
-		Assert.Equal(["last", 2, 1], stack.ToArray());
+		Assert.Equal(["last", (short)2, (short)1], stack.ToArray());
 		var poppedValue = stack.Pop();
 		Assert.Equal("last", poppedValue);
-		Assert.Equal([2, 1], stack.ToArray());
+		Assert.Equal([(short)2, (short)1], stack.ToArray());
 	}
 
 	[Step(6)]

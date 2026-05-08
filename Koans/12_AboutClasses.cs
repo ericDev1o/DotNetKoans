@@ -46,7 +46,7 @@ public class AboutClasses : Koan
 	public void InstanceMembersCanBeSetByAssigningToThem()
 	{
         // Try to assign visible class members
-        var foo = new Foo2
+        Foo2 foo = new()
         {
             Int = 1,
             _str = "Bar"
@@ -73,7 +73,7 @@ public class AboutClasses : Koan
 	[Step(3)]
 	public void UseAccessorsToReturnInstanceVariables()
 	{
-		var foo = new Foo3();
+		Foo3 foo = new();
 
 		Assert.Throws<InvalidOperationException>(foo.Do);
 

@@ -10,7 +10,7 @@ public class AboutFloats : Koan
 	[Step(1)]
 	public void UnquotedNumbersEndingInFAreFloats()
 	{
-		var f = 1f;
+		float f = 1f;
 
 		Assert.Equal(typeof(float), f.GetType());
 	}
@@ -43,7 +43,7 @@ public class AboutFloats : Koan
 	[Step(4)]
 	public void FloatingPointMathOutputsFloats()
 	{
-		var result = 1 * 2f; // One's an integer, two's a float (even though it's a whole number)!
+		float result = 1 * 2f; // One's an integer, two's a float (even though it's a whole number)!
 
 		// what will the result type be?
 		Assert.Equal(typeof(float), result.GetType());
@@ -63,15 +63,15 @@ public class AboutFloats : Koan
 	public void ValueLargerThanTheMaximumFloatBecomesInfinity()
 	{
 		// If you try to store a number larger than the maximum number a float can store, it will become Infinity or -Infinity
-		var largerThanMaximumFloatValue = float.Parse("3.5E+38",CultureInfo.InvariantCulture);
+		float largerThanMaximumFloatValue = float.Parse("3.5E+38",CultureInfo.InvariantCulture);
 		Assert.Equal(float.PositiveInfinity, largerThanMaximumFloatValue);
 	}
 
 	[Step(7)]
 	public void FloatsHaveLimitedPrecision()
 	{
-		var sevenDigits = 0.9999999f;
-		var eightDigits = 0.99999999f;
+		float sevenDigits = 0.9999999f;
+		float eightDigits = 0.99999999f;
 
 		Assert.Equal(0.9999999f, sevenDigits);
 		Assert.Equal(1, eightDigits);
@@ -97,7 +97,7 @@ public class AboutFloats : Koan
 	[Step(8)]
 	public void FloatingPointMathIsWeird()
 	{
-		var f = 0.3f + 1.6f;
+		float f = 0.3f + 1.6f;
 		CultureInfo culture = new CultureInfo("fr-FR");
 		string str = string.Format(culture, "{0:.#}", f);
 		Assert.Equal("1,9", str);

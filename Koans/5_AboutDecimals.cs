@@ -9,7 +9,7 @@ public class AboutDecimals : Koan
 	[Step(1)]
 	public void UnquotedNumbersEndingInMAreDecimals()
 	{
-		var d = 1m;
+		decimal d = 1m;
 
 		Assert.Equal(typeof(decimal), d.GetType());
 	}
@@ -23,7 +23,7 @@ public class AboutDecimals : Koan
 		decimal d = 5.2m;
 		int n = 7;
 
-		var result = d + n;
+		decimal result = d + n;
 
 		Assert.Equal(12.2m, result);
 
@@ -56,20 +56,20 @@ public class AboutDecimals : Koan
 		// Even the zen of the decimal has its limits...
 		Assert.Throws(typeof(System.OverflowException), () =>
 		{
-			var d = decimal.Parse("79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
+			decimal d = decimal.Parse("79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
 		});
 
 		Assert.Throws(typeof(System.OverflowException), () =>
 		{
-			var d = decimal.Parse("-79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
+			decimal d = decimal.Parse("-79,228,162,514,264,337,593,543,950,336",CultureInfo.InvariantCulture);
 		});
 	}
 
 	[Step(5)]
 	public void DecimalsHaveLimitedPrecision()
 	{
-		var twentyEightDigits = 0.9999999999999999999999999999m;
-		var twentyNineDigits = 0.99999999999999999999999999999m;
+		decimal twentyEightDigits = 0.9999999999999999999999999999m;
+		decimal twentyNineDigits = 0.99999999999999999999999999999m;
 
 		Assert.Equal(0.9999999999999999999999999999m, twentyEightDigits);
 		Assert.Equal(1, twentyNineDigits);
@@ -81,8 +81,8 @@ public class AboutDecimals : Koan
 	[Step(6)]
 	public void DecimalMathBehavesWell()
 	{
-		var d = 0.1m;
-		var result = d + d + d + d + d + d + d;
+		decimal d = 0.1m;
+		decimal result = d + d + d + d + d + d + d;
 
 		Assert.True(result == 0.7m);
 
