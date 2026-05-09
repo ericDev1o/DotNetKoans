@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DotNetKoans.Engine;
 using Xunit;
 
@@ -7,8 +8,9 @@ namespace DotNetKoans.Koans;
 public class AboutLinq : Koan
 {
 	/*
-	 *LINQ (Language Integrated Query).
-	 * LINQ provides language-level querying capabilities and a higher-order function API to C# and VB as a way to write expressive, declarative code.
+	 * LINQ (Language Integrated Query).
+	 * LINQ provides language-level querying capabilities and a higher-order function API to C# and VB 
+	 * as a way to write expressive, declarative code.
 	 * All LINQ query operations consist of three distinct actions:
 
 	    1. Obtain the data source.
@@ -19,122 +21,124 @@ public class AboutLinq : Koan
 	 */
 
 	[Step(1)]
-	public void FilterArrayData()
+	public static void FilterArrayData()
 	{
-		//This sample uses "where" to find all elements of an array less than 5.
+		// This sample uses "where" to find all elements of an array less than 5.
 
 		// The Three Parts of a LINQ Query:
 
 		//  1. Data source.
-		int[] numbers = { 5, 1, 9, 8, 6, 7 };
+		short[] numbers = [5, 1, 9, 8, 6, 7];
 
 		// 2. Query creation.
-		var lowNums =
+		IEnumerable<short> lowNums =
 			from n in numbers
 			where n < 5
 			select n;
 
 		// 3. Query execution.
-		Assert.Equal(FILL_ME_IN, lowNums.Count());
+		Assert.Equal(1, lowNums.Count());
 	}
 
 	[Step(2)]
-	public void PutYourDataInOrderUsingOrderBy()
+	public static void PutYourDataInOrderUsingOrderBy()
 	{
-		string[] customers = { "John", "Bill", "Maria", "George", "Anna" };
+		string[] customers = ["John", "Bill", "Maria", "George", "Anna"];
 
-		var orderedCustomers =
+		IEnumerable<string> orderedCustomers =
 			from cust in customers
-			orderby cust ascending //You can also use descending here for reverse order.
+			orderby cust ascending // You can also use descending here for reverse order.
 			select cust;
 
-		Assert.Equal(FILL_ME_IN, orderedCustomers.First());
-		Assert.Equal(FILL_ME_IN, orderedCustomers.Last());
+		Assert.Equal("Anna", orderedCustomers.First());
+		Assert.Equal("Maria", orderedCustomers.Last());
 	}
 
 	[Step(3)]
-	public void GetJustTheDataYouWantUsingTake()
+	public static void GetJustTheDataYouWantUsingTake()
 	{
-		int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+		short[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
 
-		//Get just the 3 first numbers.
-		var first3Numbers = numbers.Take(3);
+		// Get just the 3 first numbers.
+		IEnumerable<short> first3Numbers = numbers.Take(3);
 
-		Assert.Equal(FILL_ME_IN, first3Numbers.Count());
+		Assert.Equal(3, first3Numbers.Count());
 	}
 
 	[Step(4)]
-	public void UseAnyToDoSmartChecksOnYourData()
+	public static void UseAnyToDoSmartChecksOnYourData()
 	{
-		string[] words = { "believe", "relief", "receipt", "field" };
+		string[] words = ["believe", "relief", "receipt", "field"];
 
-		bool iAfterE = words.Any(w => w.Contains("ei")); //Check if any of your words contain 'ei'
-		Assert.Equal(FILL_ME_IN, iAfterE);
+		bool iAfterE = words.Any(w => w.Contains("ei")); // Check if any of your words contain 'ei'
+		
+		Assert.True(iAfterE);
 	}
 
-        
 	[Step(5)]
-	public void HowToUseWhereToFilterData()
+	public static void HowToUseWhereToFilterData()
 	{
-		var numbers = new[] {1, 2, 3, 4};
-		var result = numbers.Where(x => x > 2).ToArray();
+		short[] numbers = [1, 2, 3, 4];
+		short[] result = [.. numbers.Where(x => x > 2)];
 			
-		//What values should be in array?
-		Assert.Equal(FILL_ME_IN, result);
+		// What values should be in array?
+		Assert.Equal([(short)3, (short)4], result);
 	}
 		
 	[Step(6)]
-	public void HowToGetInfoIfValueIsGreaterThanUsingSelect()
+	public static void SelectCanTransformNumbersIntoBooleans()
 	{
-		var numbers = new[] {1, 2, 3, 4};
-		var result = numbers.Select(x => x > 2).ToArray();
+		short[] numbers = [1, 2, 3, 4];
+		bool[] result = [.. numbers.Select(x => x > 2)];
 			
-		//What values should be in array?
-		Assert.Equal(FILL_ME_IN, result);
+		// What values should be in array?
+		Assert.Equal([false, false, true, true], result);
 	}
 
 	[Step(7)]
-	public void GetSumOfTheData()
+	public static void GetSumOfTheData()
 	{
-		int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+		short[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
 
-		//Get sum of the array.
-		var sum = numbers.Sum();
+		// Get sum of the array.
+		int sum = numbers.Sum(x => x); 
+		// Sum(IEnumerable<short>) KO, 
+		// Sum<TSource>(IEnumerable<TSource>, Func<TSource, int>) OK converts to int then sums.
 
-		Assert.Equal(FILL_ME_IN, sum);
+		Assert.Equal(45, sum);
 	}
 
 	[Step(8)]
-	public void GetMinimumOfTheData()
+	public static void GetMinimumOfTheData()
 	{
-		int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+		short[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
 
-		//Get minimum of the array.
-		var min = numbers.Min();
+		// Get minimum of the array.
+		short min = numbers.Min();
 
-		Assert.Equal(FILL_ME_IN, min);
+		Assert.Equal((short)0, min);
 	}
 
 	[Step(9)]
-	public void GetMaximumOfTheData()
+	public static void GetMaximumOfTheData()
 	{
-		int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+		short[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
 
-		//Get maximum of the array.
-		var max = numbers.Max();
+		// Get maximum of the array.
+		short max = numbers.Max();
 
-		Assert.Equal(FILL_ME_IN, max);
+		Assert.Equal((short)9, max);
 	}
 
 
 	[Step(10)]
-	public void GetAverageOfTheData()
+	public static void GetAverageOfTheData()
 	{
-		int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+		short[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
 
-		//Get average of the array.
-		var average = numbers.Average();
+		// Get average of the array.
+		double average = numbers.Average(x => x);
 
-		Assert.Equal(FILL_ME_IN, average);
+		Assert.Equal(4.5, average);
 	}
 }
