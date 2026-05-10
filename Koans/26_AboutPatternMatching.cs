@@ -15,19 +15,19 @@ class AboutPatternMatching : Koan
 	#region 1.1: Test object type
 	// Pattern matching can test an object's type
 	[Step(1)]
-	public void PatternMatchingTestObjectType()
+	public static void PatternMatchingTestObjectType()
 	{
 		Hero hero = new Superman();
 
-		var message = GetHeroHelloMessageWithIf(hero);
-		Assert.Equal(FILL_ME_IN, message);
+		string message = GetHeroHelloMessageWithIf(hero);
+		Assert.Equal("I'm Superman", message);
 
 
-		var message2 = GetHeroHelloMessageWithCase(hero);
-		Assert.Equal(FILL_ME_IN, message2);
+		string message2 = GetHeroHelloMessageWithCase(hero);
+		Assert.Equal("I'm Superman", message2);
 	}
 
-	private string GetHeroHelloMessageWithIf(Hero hero)
+	private static string GetHeroHelloMessageWithIf(Hero hero)
 	{
 		if (hero is Superman)
 		{
@@ -43,76 +43,69 @@ class AboutPatternMatching : Koan
 		}
 	}
 
-	private string GetHeroHelloMessageWithCase(Hero hero)
+	private static string GetHeroHelloMessageWithCase(Hero hero)
 	{
-		switch (hero)
-		{
-			case Batman batman:
-				return "I'm the Dark Knight, you know me as Batman";
-			case Superman superman:
-				return "I'm Superman";
-			default:
-				return "Nobody knows me :'(";
-		}
-	}
+        return hero switch
+        {
+            Batman => "I'm the Dark Knight, you know me as Batman",
+            Superman => "I'm Superman",
+            _ => "Nobody knows me :'(",
+        };
+    }
 	#endregion
 
 	#region 1.2: Cast object
 	// Pattern matching can cast object
 	[Step(2)]
-	public void PatternMatchingCastObject()
+	public static void PatternMatchingCastObject()
 	{
 		Hero hero = new Batman();
 
-		var gadgets = GetGadgetsWithIf(hero);
-		Assert.Equal(FILL_ME_IN, string.Join(",", gadgets));
+		string[] gadgets = GetGadgetsWithIf(hero);
+		Assert.Equal("Batarang,Batgyro,Batsuit,Batmobile,Belt", string.Join(",", gadgets));
 
-		var gadgets2 = GetGadgetsWithCase(hero);
-		Assert.Equal(FILL_ME_IN, string.Join(",", gadgets2));
+		string[] gadgets2 = GetGadgetsWithCase(hero);
+		Assert.Equal("Batarang,Batgyro,Batsuit,Batmobile,Belt", string.Join(",", gadgets2));
 	}
 
-	private string[] GetGadgetsWithIf(Hero hero)
+	private static string[] GetGadgetsWithIf(Hero hero)
 	{
-		var batman = hero as Batman; // return null if hero is not a batman
-		if (batman != null)
-		{
-			return batman.gadget; // gadget is not in hero class but in batman
-		}
+        // return null if hero is not a batman
+        if (hero is Batman batman)
+        {
+            return batman.gadget; // gadget is not in hero class but in batman
+        }
 
-		return new string[0];
+        else return [];
 	}
 
-	private string[] GetGadgetsWithCase(Hero hero)
+	private static string[] GetGadgetsWithCase(Hero hero)
 	{
-		switch (hero)
-		{
-			case Batman batman:
-				return batman.gadget; // gadget is not in hero class but in batman
-
-			default:
-				return new string[0];
-		}
-	}
+        return hero switch
+        {
+            Batman batman => batman.gadget,// gadget is not in hero class but in batman
+            _ => [],
+        };
+    }
 	#endregion
 
 	// Pattern matching case with sugar syntax
 	[Step(3)]
-	public void PatternMatchingCaseSugarSyntax()
+	public static void PatternMatchingCaseSugarSyntax()
 	{
 		/// In the two previous examples, each switch case always returns a value.
 		/// There is a sugar syntax for that
 		/// Let's refactor the second one.
 		Hero hero = new Batman();
 
-		var gadgets = hero switch
+		string[] gadgets = hero switch
 		{
 			Batman batman => batman.gadget,
-			_ => new string[0] // default case
+			_ => [] // default case
 		};
 
-		Assert.Equal(FILL_ME_IN, string.Join(",", gadgets));
+		Assert.Equal("Batarang,Batgyro,Batsuit,Batmobile,Belt", string.Join(",", gadgets));
 	}
-
 
 	#endregion
 
@@ -123,52 +116,50 @@ class AboutPatternMatching : Koan
 
 	// Special case with when
 	[Step(4)]
-	public void SpecialCaseWithWhenClause()
+	public static void SpecialCaseWithWhenClause()
 	{
 		Hero hero = new Batman();
 		hero.ReplaceBy("Jean-Paul", "Valley");
-
-		var message = hero switch
+        string message = hero switch
 		{
-			Batman batman when batman.lastName == "Wayne" => "Sure, you are Batman", // Special case
-			Batman batman => "You look like batman, but I don't think you are",
+			Batman batman when batman.LastName == "Wayne" => "Sure, you are Batman", // Special case
+            Batman => "You look like batman, but I don't think you are",
 			_ => "I don't know you" // default case
 		};
 
-		Assert.Equal(FILL_ME_IN, message);
+		Assert.Equal("You look like batman, but I don't think you are", message);
 	}
 
 	// Special case with destructuring on tuples
 	[Step(5)]
-	public void SpecialCaseWithDestructuringTuple()
+	public static void SpecialCaseWithDestructuringTuple()
 	{
-		/// 
-		var hero = ("Batman", "Valley", "Jean-Paul");
+		(string, string, string) hero = ("Batman", "Valley", "Jean-Paul");
 
-		var message = hero switch
+		string message = hero switch
 		{
 			("Batman", "Wayne", _) => "Sure, you are Batman",
 			("Batman", _, _) => "You look like Batman, but I don't think you are",
 			_ => "I don't know you" // default case
 		};
 
-		Assert.Equal(FILL_ME_IN, message);
+		Assert.Equal("You look like Batman, but I don't think you are", message);
 	}
 
 	// Special case with destructuring on object
 	[Step(6)]
-	public void SpecialCaseWithDestructuringObject()
+	public static void SpecialCaseWithDestructuringObject()
 	{
 		Hero hero = new Batman();
 
-		var message = hero switch
+		string message = hero switch
 		{
-			{ lastName: "Wayne" } => "Sure, you are Batman",
-			Batman batman => "You look like Batman, but I don't think you are",
+			{ LastName: "Wayne" } => "Sure, you're Batman",
+			Batman => "You look like Batman, but I don't think you are",
 			_ => "I don't know you" // default case
 		};
 
-		Assert.Equal(FILL_ME_IN, message);
+		Assert.Equal("Sure, you're Batman", message);
 	}
 
 	#endregion
@@ -177,70 +168,63 @@ class AboutPatternMatching : Koan
 
 	// Evaluation order in pattern matching
 	[Step(7)]
-	public void PatternMatchingOrder()
+	public static void PatternMatchingOrder()
 	{
 		/// Pattern matching is evaluated from top to bottom
 		Hero hero = new Batman();
 
-		var message = hero switch
+		string message = hero switch
 		{
-			Batman batman when batman.lastName != "Wayne" => "You look like Batman, but I don't think you are",
-			{ lastName: "Wayne" } => "Sure, you are Batman",
+			Batman batman when batman.LastName != "Wayne" => "You look like Batman, but I don't think you are",
+			{ LastName: "Wayne" } => "Sure, you're Batman",
 			_ => "I don't know you" // default case
 		};
 
-		Assert.Equal(FILL_ME_IN, message);
+		Assert.Equal("Sure, you're Batman", message);
 	}
 
 
 	// Pattern matching with null values
 	[Step(8)]
-	public void PatternMatchingWithNull()
+	public static void PatternMatchingWithNull()
 	{
 		// Pattern matching doesn't throw NullReferenceException
 		Hero hero = null;
 
-		var message = hero switch
+		string message = hero switch
 		{
-			Batman batman when batman.lastName != "Wayne" => "You look like Batman, but I don't think you are",
-			Batman batman => "Sure, you are Batman",
+			Batman batman when batman.LastName != "Wayne" => "You look like Batman, but I don't think you are",
+			Batman => "Sure, you are Batman",
 			_ => "I don't know you" // default case
 		};
 
-		Assert.Equal(FILL_ME_IN, message);
+		Assert.Equal("I don't know you", message);
 	}
-
 	#endregion
-
-
-
 }
 
-class Hero
+class Hero(string firstName, string lastName)
 {
-	public string firstName { get; private set; }
-	public string lastName { get; private set; }
+    public string FirstName { get; private set; } = firstName;
+    public string LastName { get; private set; } = lastName;
 
-	public Hero(string firstName, string lastName)
+    public void ReplaceBy(string firstName, string lastName)
 	{
-		this.firstName = firstName;
-		this.lastName = lastName;
+		FirstName = firstName;
+		LastName = lastName;
 	}
-
-	public void ReplaceBy(string firstName, string lastName)
-	{
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
-
 }
 
 class Batman : Hero
 {
-	public string[] gadget = new string[]
-	{
-		"Batarang", "Batgyro", "Batsuit", "Batmobile", "Belt"
-	};
+	public string[] gadget =
+    [
+        "Batarang", 
+		"Batgyro", 
+		"Batsuit", 
+		"Batmobile", 
+		"Belt"
+	];
 
 	public Batman() : base("Bruce", "Wayne")
 	{ }

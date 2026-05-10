@@ -1,8 +1,5 @@
-﻿#pragma warning disable xUnit2009
-using Xunit;
-using System.Threading;
+﻿using Xunit;
 using System;
-using System.Globalization;
 using DotNetKoans.Engine;
 
 namespace DotNetKoans.Koans;
@@ -15,27 +12,27 @@ class AboutDestructuring : Koan
 
 	// Tuples can be destructured
 	[Step(1)]
-	public void TupleCanBeDestructured()
+	public static void TupleCanBeDestructured()
 	{
 		// If you don't know tuples, look at AboutTuples.cs
-		var batman = ("Bruce", "Wayne");
+		Tuple<string, string> batman = new("Bruce", "Wayne");
 
-		var (firstName, lastName) = batman; // This is destructuring
+		(string firstName, string lastName) = batman; // This is destructuring
 
-		Assert.Equal(FILL_ME_IN, firstName);
-		Assert.Equal(FILL_ME_IN, lastName);
+		Assert.Equal("Bruce", firstName);
+		Assert.Equal("Wayne", lastName);
 	}
 
 	// you can avoid destructuring a property
 	[Step(2)]
-	public void AvoidDestructuringAProperty()
+	public static void AvoidDestructuringAProperty()
 	{
 		// Use _ when you don't need to extract a property
-		var batman = ("Bruce", "Wayne");
+		Tuple<string, string> batman = new("Bruce", "Wayne");
 
-		var (_, lastName) = batman;
+		(_, string lastName) = batman;
 
-		Assert.Equal(FILL_ME_IN, lastName);
+		Assert.Equal("Wayne", lastName);
 	}
 
 
@@ -45,57 +42,49 @@ class AboutDestructuring : Koan
 
 	// Object can be destructured
 	[Step(3)]
-	public void ObjectCanBeDestructured()
+	public static void ObjectCanBeDestructured()
 	{
-		var batman = new Batman("Bruce", "Wayne");
+		Batman batman = new("Bruce", "Wayne");
 
-		var (firstName, lastName) = batman; //uses Deconstruct(out string firstName, out string lastName)
+		(string firstName, string lastName) = batman; // uses Deconstruct(out string firstName, out string lastName)
 
-		Assert.Equal(FILL_ME_IN, firstName);
-		Assert.Equal(FILL_ME_IN, lastName);
+		Assert.Equal("Bruce", firstName);
+		Assert.Equal("Wayne", lastName);
 	}
 
 
 	// you can avoid destructuring a property
 	[Step(4)]
-	public void ObjectAvoidDestructuringAProperty()
+	public static void ObjectAvoidDestructuringAProperty()
 	{
 		// Use _ when you don't need to extract a property
-		var batman = new Batman("Bruce", "Wayne");
+		Batman batman = new("Bruce", "Wayne");
 
-		var (_, lastName) = batman; // uses Deconstruct(out string firstName, out string lastName)
+		(_, string lastName) = batman; // uses Deconstruct(out string firstName, out string lastName)
 
-		Assert.Equal(FILL_ME_IN, lastName);
+		Assert.Equal("Wayne", lastName);
 	}
 
 
 	// You can "configure" object destructuring
 	[Step(5)]
-	public void ObjectDestructuringCanBeConfigured()
+	public static void ObjectDestructuringCanBeConfigured()
 	{
 		// Use _ when you don't need to extract a property
-		var batman = new Batman("Bruce", "Wayne");
+		Batman batman = new("Bruce", "Wayne");
+        (_, _, string heroName) = batman; // uses Deconstruct(out string firstName, out string lastName, out string heroName)
 
-		var (firstName, _, heroName) = batman; // uses Deconstruct(out string firstName, out string lastName, out string heroName)
-
-		Assert.Equal(FILL_ME_IN, heroName);
+		Assert.Equal("Batman", heroName);
 
 		// Do you think it is a good practice ?
 	}
 
-	class Batman
-	{
-		private readonly string firstName;
-		private readonly string lastName;
+	class Batman(string firstName, string lastName)
+    {
+		private readonly string firstName = firstName;
+		private readonly string lastName = lastName;
 
-		public Batman(string firstName, string lastName)
-		{
-			this.firstName = firstName;
-			this.lastName = lastName;
-		}
-
-
-		public void Deconstruct(out string firstName, out string lastName)
+        public void Deconstruct(out string firstName, out string lastName)
 		{
 			firstName = this.firstName;
 			lastName = this.lastName;
@@ -106,9 +95,6 @@ class AboutDestructuring : Koan
 			Deconstruct(out firstName, out lastName);
 			heroName = "Batman";
 		}
-
 	}
 	#endregion
-
-
 }
