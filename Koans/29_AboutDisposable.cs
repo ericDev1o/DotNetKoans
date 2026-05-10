@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using DotNetKoans.Engine;
 using Xunit;
@@ -22,24 +21,24 @@ public class AboutDisposable : Koan
 	const string FILE = "The quick brown fox jumped...";
 
 	[Step(1)]
-	public void DisposingAStreamReaderWithUsing()
+	public static void DisposingAStreamReaderWithUsing()
 	{
 		// mimic a file stream
 		// notice the using keyword
-		using var stream = new MemoryStream(Encoding.ASCII.GetBytes(FILE));
+		using MemoryStream stream = new(Encoding.ASCII.GetBytes(FILE));
 
 		// read the file stream
 		// notice the using keyword
-		using var reader = new StreamReader(stream);
+		using StreamReader reader = new(stream);
 
 		// get file contents in readable format
-		var result = reader.ReadToEnd();
+		string result = reader.ReadToEnd();
 
-		Assert.Equal(result, FILL_ME_IN);
+		Assert.Equal("The quick brown fox jumped...", result);
 	}
 
 	[Step(2)]
-	public void DisposingAStreamReaderWithFinally()
+	public static void DisposingAStreamReaderWithFinally()
 	{
 		// get a handle outside the try scope
 		// so that we can reference the objects in finally block
@@ -66,6 +65,6 @@ public class AboutDisposable : Koan
 			reader.Dispose();
 		}
 
-		Assert.Equal(result, FILL_ME_IN);
+		Assert.Equal("The quick brown fox jumped...", result);
 	}
 }
