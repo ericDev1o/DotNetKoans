@@ -21,110 +21,109 @@ namespace DotNetKoans.Koans
         //
         // Definitions taken from "C# in a Nutshell" by Joseph Albahari and Ben Albahari.
 
-
         [Step(1)]
-        public void CreatingThreads()
+        public static void CreatingThreads()
         {
             Thread.CurrentThread.Name = "MainThread";
 
-            var result = string.Empty;
+            string result = string.Empty;
 
             //Create a new thread object with anonymous function
-            Thread otherThread = new Thread(() =>
+            Thread otherThread = new(() =>
             {
                 Thread.CurrentThread.Name = "OtherThread";
-                //Block execution path of the current thread
-                //Remove this statement after you are done with this koan because
-                //it can cause other koans to take longer to run.
+                // Block execution path of the current thread
+                // Remove this statement after you are done with this koan because
+                // it can cause other koans to take longer to run.
                 Thread.Sleep(1000);
                 result += Thread.CurrentThread.Name;
             });
-            //Run the thread   
+            // Run the thread   
             otherThread.Start();
 
             result += Thread.CurrentThread.Name;
-            Assert.Equal(FILL_ME_IN, result);
+            Assert.Equal("MainThread", result);
         }
 
         [Step(2)]
-        public void SynchronizingThreads()
+        public static void SynchronizingThreads()
         {
             Thread.CurrentThread.Name = "MainThread";
 
-            var result = string.Empty;
+            string result = string.Empty;
 
-            //Create a new thread object with anonymous function
-            Thread otherThread = new Thread(() =>
+            // Create a new thread object with anonymous function
+            Thread otherThread = new(() =>
             {
                 Thread.CurrentThread.Name = "OtherThread";
-                //Block execution path of the current thread
+                // Block execution path of the current thread
                 Thread.Sleep(1000);
                 result += Thread.CurrentThread.Name;
             });
-            //Run the thread   
+            // Run the thread   
             otherThread.Start();
             otherThread.Join();
 
             result += Thread.CurrentThread.Name;
-            Assert.Equal(FILL_ME_IN, result);
+            Assert.Equal("OtherThreadMainThread", result);
         }
 
         [Step(3)]
-        public void OrderingThreadsPractice()
+        public static void OrderingThreadsPractice()
         {
             string result = string.Empty;
             const string HELLO = nameof(HELLO);
             const string WORLD = nameof(WORLD);
 
-            Thread thread1 = new Thread(() => { result += HELLO; });
-            Thread thread2 = new Thread(() => { result += WORLD; });
+            Thread thread1 = new(() => { result += HELLO; });
+            Thread thread2 = new(() => { result += WORLD; });
 
-            //start threads so that pass this exercise 
+            // start threads so that pass this exercise 
             thread1.Start();
             thread1.Join();
             thread2.Start();
             thread2.Join();
 
-            Assert.Equal(FILL_ME_IN, result);
+            Assert.Equal("HELLOWORLD", result);
         }
 
         [Step(4)]
-        public void PassArgumentsToThreads()
+        public static void PassArgumentsToThreads()
         {
-            int result = default(int);
+            int result = default;
 
-            Thread thread = new Thread((factor) => { result = (int)factor * 5; });
+            Thread thread = new((factor) => { result = (int)factor * 5; });
             thread.Start(100);
             thread.Join();
 
-            Assert.Equal(FILL_ME_IN, result);
+            Assert.Equal(500, result);
         }
 
 
         [Step(5)]
-        public void LockStatement()
+        public static void LockStatement()
         {
-            //When two or more thread access shared data or resources
-            //in a way that can lead to unexpected or incorrect behavior
-            //it can cause Race Condition 
+            // When two or more thread access shared data or resources
+            // in a way that can lead to unexpected or incorrect behavior
+            // it can cause Race Condition 
             //
-            //Locking is one way to prevent race conditions by allowing only
-            //one thread to access a shared resource at a time
+            // Locking is one way to prevent race conditions by allowing only
+            // one thread to access a shared resource at a time
 
-            object lockObject = new object();
+            object lockObject = new();
 
-            //Its shared resource that the Sum method access it 
-            //from two different threads
-            int SumResult = 0;
+            // Its shared resource that the Sum method access it 
+            // from two different threads
+            short SumResult = 0;
 
-            //We have to do this several times because
-            //the result is not predictable and sometimes might seem correct
-            //although it is not reliable
-            for (int i = 0; i < 5; i++)
+            // We have to do this several times because
+            // the result is not predictable and sometimes might seem correct
+            // although it is not reliable
+            for (short i = 0; i < 5; i++)
             {
                 // Create two threads that call Sum simultaneously
-                Thread thread1 = new Thread(() => Sum(30));
-                Thread thread2 = new Thread(() => Sum(30));
+                Thread thread1 = new(() => Sum(30));
+                Thread thread2 = new(() => Sum(30));
                 SumResult = 0;
                 thread1.Start();
                 thread2.Start();
@@ -136,16 +135,16 @@ namespace DotNetKoans.Koans
                 Assert.Equal(60, SumResult);
             }
 
-            void Sum(int length)
+            void Sum(short length)
             {
-                for (int i = 0; i < length; i++)
+                for (short i = 0; i < length; i++)
                 {
-                    //Remove this statement after you are done with this koan because
-                    //it can cause other koans to take longer to run.
+                    // Remove this statement after you are done with this koan because
+                    // it can cause other koans to take longer to run.
                     Thread.Sleep(100);
 
-                    //Just uncomment this code
-                    //lock (lockObject)
+                    // Just uncomment this code
+                    lock (lockObject)
                     {
                         SumResult++;
                     }
