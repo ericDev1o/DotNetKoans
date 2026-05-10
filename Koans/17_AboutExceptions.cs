@@ -74,7 +74,7 @@ public class AboutExceptions : Koan
 		catch (SystemException)
 		{
 			// You can put any logic you want in here and it will only run if the exception is thrown.
-			Console.WriteLine("Our program had an error, your karma was not saved. Sorry man");
+			Console.WriteLine("AboutExceptions Step3: SaveKarmaToDisk() as expected threw a System.IO.IOException to test SystemException catch. Don't worry about this message.");
 		}
 
 		Assert.False(KarmaIsSaved);
