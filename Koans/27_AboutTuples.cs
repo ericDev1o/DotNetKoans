@@ -2,7 +2,6 @@ using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
 using DotNetKoans.Engine;
 
 namespace DotNetKoans.Koans;
@@ -12,102 +11,99 @@ public class AboutTuples : Koan
 
 	#region 1: Tuple can group multiple elements together
 
-
 	// A tuple is a C# class
 	[Step(1)]
-	public void TupleIsACSharpClass()
+	public static void TupleIsACSharpClass()
 	{
-		var batman = new Tuple<string, string>("Bruce", "Wayne");
+		Tuple<string, string> batman = new("Bruce", "Wayne");
 
-		Assert.Equal(FILL_ME_IN, batman.Item1); // FirstName
-		Assert.Equal(FILL_ME_IN, batman.Item2); // LastName
+		Assert.Equal("Bruce", batman.Item1); // FirstName
+		Assert.Equal("Wayne", batman.Item2); // LastName
 	}
 
 	// with some syntax sugar
 	[Step(2)]
-	public void WithSomeSyntaxSugar()
+	public static void WithSomeSyntaxSugar()
 	{
-		var batman = ("Bruce", "Wayne");
+		(string, string) batman = ("Bruce", "Wayne");
 
-		Assert.Equal(FILL_ME_IN, batman.Item1); // FirstName
-		Assert.Equal(FILL_ME_IN, batman.Item2); // LastName
+		Assert.Equal("Bruce", batman.Item1); // FirstName
+		Assert.Equal("Wayne", batman.Item2); // LastName
 	}
 
 	// You can name values in the tuple
 	[Step(3)]
-	public void YouCanNameValuesInTuple()
+	public static void YouCanNameValuesInTuple()
 	{
-		var lastName = "Wayne";
-		var batman = (firstName: "Bruce", lastName);
+		string lastName = "Wayne";
+		(string firstName, string lastName) batman = (firstName: "Bruce", lastName);
 
-		Assert.Equal(FILL_ME_IN, batman.firstName);
-		Assert.Equal(FILL_ME_IN, batman.lastName);
+		Assert.Equal("Bruce", batman.firstName);
+		Assert.Equal("Wayne", batman.lastName);
 	}
 
 	// A tuple can be used as a function parameter
 	[Step(4)]
-	public void TupleCanBeUsedInFunction()
+	public static void TupleCanBeUsedInFunction()
 	{
-		var batman = (firstName: "Bruce", lastName: "Wayne");
+		(string firstName, string lastName) batman = (firstName: "Bruce", lastName: "Wayne");
 
-		Assert.Equal(FILL_ME_IN, GetFullName(batman));
+		Assert.Equal("Bruce Wayne", GetFullName(batman));
 	}
 
-	public string GetFullName((string firstName, string lastName) data)
+	public static string GetFullName((string firstName, string lastName) data)
 	{
 		return $"{data.firstName} {data.lastName}";
 	}
 
 	// A tuple can contain different types
 	[Step(5)]
-	public void TupleCanContainDifferentTypes()
+	public static void TupleCanContainDifferentTypes()
 	{
-		var enemy = new List<string>() { "Joker", "Penguin", "Riddler", "Catwoman" };
-		var batman1966 = (firstName: "Bruce", lastName: "Wayne", enemy);
+		List<string> enemy = ["Joker", "Penguin", "Riddler", "Catwoman"];
+		(string firstName, string lastName, List<string> enemy) batman1966 = (firstName: "Bruce", lastName: "Wayne", enemy);
 
-		Assert.Equal(typeof(FillMeIn), batman1966.firstName.GetType());
-		Assert.Equal(typeof(FillMeIn), batman1966.enemy.GetType());
+		Assert.Equal(typeof(string), batman1966.firstName.GetType());
+		Assert.Equal(typeof(List<string>), batman1966.enemy.GetType());
 
 	}
-
-
-
 	#endregion
-
 
 	#region 2: equality
 
 	// Two tuples are equal when they have the same values
 	[Step(6)]
-	public void TwoTupleAreEquaWhenHaveSameValuesInSameOrder()
+	public static void TwoTupleAreEquaWhenHaveSameValuesInSameOrder()
 	{
-		var batman = (firstName: "Bruce", lastName: "Wayne");
+		(string firstName, string lastName) batman = (firstName: "Bruce", lastName: "Wayne");
+		(string, string) bruceWayne = ("Bruce", "Wayne");
 
-		var bruceWayne = ("Bruce", "Wayne");
-		Assert.Equal(FILL_ME_IN, batman == bruceWayne);
+		Assert.True(batman == bruceWayne);
 
-		var wayneBruce = ("Wayne", "Bruce");
-		Assert.Equal(FILL_ME_IN, batman == wayneBruce);
+		(string, string) wayneBruce = ("Wayne", "Bruce");
+		Assert.False(batman == wayneBruce);
 
-		var azrael = (firstName: "Jean-Paul", lastName: "Valley");
-		Assert.Equal(FILL_ME_IN, batman == azrael);
+		(string firstName, string lastName) azrael = (firstName: "Jean-Paul", lastName: "Valley");
+		Assert.False(batman == azrael);
 	}
 
 	// Two lists in a tuple are compared by reference
 	[Step(7)]
-	public void ButListStillUsedReferenceEquality()
+	public static void ButListStillUsedReferenceEquality()
 	{
-		var enemy1966 = new List<string>() { "Joker", "Penguin", "Riddler", "Catwoman" };
-		var batman1966 = (firstName: "Bruce", lastName: "Wayne"
+		List<string> enemy1966 = ["Joker", "Penguin", "Riddler", "Catwoman"];
+		(string firstName, string lastName, List<string> enemy) batman1966 = (firstName: "Bruce", lastName: "Wayne"
 			, enemy: enemy1966);
 
-		var aDud = (firstName: "Bruce", lastName: "Wayne"
+		(string firstName, string lastName, List<string> enemy) aDud = (firstName: "Bruce", lastName: "Wayne"
 			, enemy: enemy1966);
-		Assert.Equal(FILL_ME_IN, batman1966 == aDud);
 
-		var newBatman1966 = (firstName: "Bruce", lastName: "Wayne"
+		Assert.True(batman1966 == aDud);
+
+		(string firstName, string lastName, List<string> enemy) newBatman1966 = (firstName: "Bruce", lastName: "Wayne"
 			, enemy: new List<string>() { "Joker", "Penguin", "Riddler", "Catwoman" });
-		Assert.Equal(FILL_ME_IN, batman1966 == newBatman1966); //this one is tricky
+
+		Assert.False(batman1966 == newBatman1966); //this one is tricky
 	}
 
 	#endregion
@@ -116,53 +112,53 @@ public class AboutTuples : Koan
 
 	// A Tuple can replace out parameter
 	[Step(8)]
-	public void TupleReplaceOutParameter()
+	public static void TupleReplaceOutParameter()
 	{
-		/// When your function need to return more than one value, you have to use out parameter
-		/// Now, we can use tuples
-		var otherEnemies = new List<string>();
-		var mainEnemy = extractMainEnemyWithOut("Joker,Penguin,Riddler,Catwoman", out otherEnemies);
+        /// When your method needs to return more than one value, you have to use out parameter
+        /// Now, we can use tuples
+        string mainEnemy = ExtractMainEnemyWithOut("Joker,Penguin,Riddler,Catwoman", out List<string> otherEnemies);
 
-		Assert.Equal(FILL_ME_IN, mainEnemy);
-		Assert.Equal(FILL_ME_IN, string.Join(",", otherEnemies));
+        Assert.Equal("Joker", mainEnemy);
+		Assert.Equal("Penguin,Riddler,Catwoman", string.Join(",", otherEnemies));
 
-		var extract = extractMainEnemyWithTuple("Joker,Penguin,Riddler,Catwoman");
+		(string mainEnemy, List<string> otherEnemies) extract = ExtractMainEnemyWithTuple("Joker,Penguin,Riddler,Catwoman");
 
-		Assert.Equal(FILL_ME_IN, extract.mainEnemy);
-		Assert.Equal(FILL_ME_IN, string.Join(",", extract.othersEnemies));
+		Assert.Equal("Joker", extract.mainEnemy);
+		Assert.Equal("Penguin,Riddler,Catwoman", string.Join(",", extract.otherEnemies));
 
 		// What syntax do you prefer?
 	}
 
-	private string extractMainEnemyWithOut(string enemies, out List<string> othersEnemies)
+	private static string ExtractMainEnemyWithOut(string enemies, out List<string> othersEnemies)
 	{
-		var listEnemies = enemies.Split(",");
-		var mainEnemy = listEnemies.First();
-		othersEnemies = listEnemies.Skip(1).ToList();
+		string[] listEnemies = enemies.Split(",");
+		string mainEnemy = listEnemies.First();
+		othersEnemies = [.. listEnemies.Skip(1)];
+
 		return mainEnemy;
 	}
 
-	private (string mainEnemy, List<string> othersEnemies) extractMainEnemyWithTuple(string enemies)
+	private static (string mainEnemy, List<string> otherEnemies) ExtractMainEnemyWithTuple(string enemies)
 	{
-		var listEnemies = enemies.Split(",");
-		var mainEnemy = listEnemies.First();
-		var othersEnemies = listEnemies.Skip(1).ToList();
-		return (mainEnemy, othersEnemies);
+		string[] listEnemies = enemies.Split(",");
+		string mainEnemy = listEnemies.First();
+		List<string> otherEnemies = [.. listEnemies.Skip(1)];
+
+		return (mainEnemy, otherEnemies);
 	}
 
 	// Tuple with extension can replace class 
 	[Step(9)]
-	public void TupleWithExtensionCanReplaceClass()
+	public static void TupleWithExtensionCanReplaceClass()
 	{
-
-		var batman1966Class = new Movie("Bruce", "Wayne");
+		Movie batman1966Class = new("Bruce", "Wayne");
 		batman1966Class.AddMainEnemy("Joker");
 		batman1966Class.AddAlso("Penguin");
 		batman1966Class.AddAlso("Riddler");
 		batman1966Class.AddAlso("Catwoman");
 		string titleClass = batman1966Class.GetTitle();
 
-		Assert.Equal(FILL_ME_IN, titleClass);
+		Assert.Equal("A movie with Bruce Wayne against Joker, Penguin, Riddler, Catwoman", titleClass);
 
 		// You can know more on extension with koan AboutMethods
 		string titleTuple = ("Bruce", "Wayne")
@@ -172,32 +168,24 @@ public class AboutTuples : Koan
 			.AndAlso("Catwoman")
 			.GetTitle();
 
-		Assert.Equal(FILL_ME_IN, titleTuple);
+		Assert.Equal("A movie with Bruce Wayne against Joker, Penguin, Riddler, Catwoman", titleTuple);
 		/* 
 		 What's syntax do you prefer?
 		If you want to know more on tuple + extension advantages, look at : https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch03.md
 		*/
 	}
-
 	#endregion
-
 }
 
-class Movie
+class Movie(string firstName, string lastName)
 {
-	private readonly string firstName;
-	private readonly string lastName;
+	private readonly string firstName = firstName;
+	private readonly string lastName = lastName;
 	private string mainEnemy;
 
-	private List<string> enemies = new List<string>();
+	private readonly List<string> enemies = [];
 
-	public Movie(string firstName, string lastName)
-	{
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
-
-	public void AddMainEnemy(string name)
+    public void AddMainEnemy(string name)
 	{
 		mainEnemy = name;
 	}
@@ -207,10 +195,10 @@ class Movie
 		enemies.Add(name);
 	}
 
-	public string toStringEnemies()
+	public string ToStringEnemies()
 	{
-		var result = mainEnemy;
-		if (enemies.Any())
+		string result = mainEnemy;
+		if (enemies.Count > 0)
 		{
 			result += ", " + string.Join(", ", enemies);
 		}
@@ -220,7 +208,7 @@ class Movie
 
 	public string GetTitle()
 	{
-		return $"A move with {firstName} {lastName} against {toStringEnemies()}";
+		return $"A movie with {firstName} {lastName} against {ToStringEnemies()}";
 	}
 }
 
@@ -229,11 +217,11 @@ public static class MovieExtension
 {
 	public static string GetTitle(this (string firstName, string lastName, List<string> enemies) movie)
 	{
-		string strEnemies = movie.enemies.Any()
+		string strEnemies = movie.enemies.Count > 0
 			? string.Join(", ", movie.enemies)
 			: "himself"; // If you don't understand, please look in AboutControlStatements.cs > TernaryOperators
 
-		return $"A move with {movie.firstName} {movie.lastName} against {strEnemies}";
+		return $"A movie with {movie.firstName} {movie.lastName} against {strEnemies}";
 	}
 
 	public static (string firstName, string lastName, List<string> enemies) WithMainEnemy(this (string firstName, string lastName) movie, string enemyName)
@@ -243,7 +231,7 @@ public static class MovieExtension
 
 	public static (string firstName, string lastName, List<string> enemies) AndAlso(this (string firstName, string lastName, List<string> enemies) movie, string enemyName)
 	{
-		var enemies = movie.enemies.Append(enemyName).ToList();
+		List<string> enemies = [.. movie.enemies, enemyName];
 		return (movie.firstName, movie.lastName, enemies);
 	}
 }
